@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author v.chibrikov
+ * @author mid135
  */
 public class Frontend extends HttpServlet {
 
