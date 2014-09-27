@@ -91,7 +91,7 @@ public class SignUpServlet extends HttpServlet {
                 if (users.get(user.login).password.equals(user.password)) {
                     if (usersStatusAuthorization.get(user.login).equals(false)){
                         pageVariables.put("mesage", "Вход выполнен успешно");
-                        arraySessionId.put(request.getSession().getId(), user);
+                        arraySessionId.put(request.getSession().getId(), users.get(user.login));
                         usersStatusAuthorization.put(user.login, true);
                         pages.put(request.getSession().getId(), profileUser);
                         pageVariables.put("Login", user.login);
