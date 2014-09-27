@@ -22,6 +22,7 @@ import static templater.Pages.*;
 /**
  * Created by narek on 13.09.14.
  */
+// класс для выхода из нашего акаунта
 public class LogOff extends HttpServlet {
     private String mesage = "Введите логин и пароль для входа";
     private Map<String, Pages> pages;
