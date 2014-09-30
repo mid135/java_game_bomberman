@@ -5,6 +5,6 @@ package templater;
  */
 public enum Pages {
     authform,
-    authorization,
+    registration,
     profileUser
 }

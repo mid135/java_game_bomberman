@@ -3,6 +3,7 @@ package frontend;
 /**
  * Created by narek on 27.09.14.
  */
+import backend.UserPool;
 import templater.PageGenerator;
 import templater.Pages;
 import templater.User;
@@ -24,27 +25,20 @@ import static templater.Pages.*;
  */
 // класс для выхода из нашего акаунта
 public class LogOff extends HttpServlet {
-    private String mesage = "Введите логин и пароль для входа";
-    private Map<String, Pages> pages;
-    private Map<String, User> arraySessionId;
-
-    private Map<String, Boolean> usersStatusAuthorization;
-    public LogOff(Map<String, Pages> pages, Map<String, User> arraySessionId, Map<String, Boolean> usersStatusAuthorization) {
-        this.pages = pages;
-        this.arraySessionId = arraySessionId;
-
-        this.usersStatusAuthorization = usersStatusAuthorization;
+    private String message = "Введите логин и пароль для входа";
+    private UserPool pool;
+    public LogOff(UserPool pool) {
+        this.pool=pool;
     }
 
     public void doPost(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("mesage", mesage == null ? "" : mesage);
+        pageVariables.put("message", message == null ? "" : message);
 
-        pages.replace(request.getSession().getId(), authform);
-        arraySessionId.remove(request.getSession().getId());
-        usersStatusAuthorization.replace(request.getSession().getId(), false);
+        boolean b=pool.logOff(request);
+
 
         response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
