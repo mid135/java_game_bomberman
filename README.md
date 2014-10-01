@@ -5,7 +5,7 @@
 Учебный период: осенний семестр 2014г.
 
 ##Студенты
-Москалюк Дмитрий, https://github.com/mid135,  moskalukdima@mail.ru
+Москалюк Дмитрий, https://github.com/mid135,  moskalukdima@mail.ru <br>
 Нарек Абовян, https://github.com/naro91,  *******************
 
 
