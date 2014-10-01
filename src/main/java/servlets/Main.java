@@ -19,7 +19,16 @@ public class Main {
         LogOff logoff = new LogOff(pool);
         Register register=new Register(pool);
 
-        Server server = new Server(8080);
+        if (args.length != 1) {
+            System.out.append("Use port as the first argument");
+            System.exit(1);
+        }
+
+        String portString = args[0];
+        int port = Integer.valueOf(portString);
+        System.out.append("Starting at port: ").append(portString).append('\n');
+
+        Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         server.setHandler(context);
 
