@@ -6,20 +6,15 @@ package frontend;
  */
 import backend.UserPool;
 import templater.PageGenerator;
-import templater.Pages;
-import templater.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static templater.Pages.*;
 
 // класс для выхода из нашего акаунта
 public class LogOff extends HttpServlet {

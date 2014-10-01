@@ -5,6 +5,7 @@ import frontend.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import templater.User;
 
 /**
  * @author v.chibrikov
@@ -36,6 +37,7 @@ public class Main {
         context.addServlet(new ServletHolder(logoff), "/logoff");
         context.addServlet(new ServletHolder(register),"/registration");
 
+        context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
         server.start();
         server.join();
     }

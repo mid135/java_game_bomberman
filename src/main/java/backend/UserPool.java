@@ -1,7 +1,7 @@
 package backend;
 
 import org.eclipse.jetty.server.Request;
-import templater.Pages;
+
 import templater.User;
 
 import javax.servlet.http.HttpServletRequest;
