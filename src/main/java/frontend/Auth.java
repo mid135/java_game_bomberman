@@ -60,7 +60,7 @@ public class Auth extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
-        if (this.pool.logIn(user.login, request)) {
+        if (this.pool.logIn(user.login,user.password, request)) {
             //успех залогинивания
             pageVariables.put("message","Вход успешен");
 

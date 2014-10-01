@@ -42,17 +42,21 @@ public class UserPool {
 
     public boolean checkLogIn (HttpServletRequest request) {//проверка залогинен ли пользватель
         if (arraySessionId.containsKey(request.getSession().getId())) {//есть ли у данного sid юзер
-            return true;//TODO все н может быть так просто
+            return true;//TODO все не может быть так просто
         } else {
             return false;
         }
     }
 
-    public boolean logIn(String login,HttpServletRequest request) {//залогинивагние пользователя
+    public boolean logIn(String login, String password,HttpServletRequest request) {//залогинивагние пользователя
         if (!checkLogIn(request)) {
             if (this.checkRegistration(login) && !arraySessionId.containsValue(login)) {// TODO эта проверка не совсем корректна
-                arraySessionId.put(request.getSession().getId(), users.get(login));
-                return true;
+                if (users.get(login).password.equals(password)) {
+                    arraySessionId.put(request.getSession().getId(), users.get(login));
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
