@@ -68,12 +68,16 @@ public class UserPool {
 
     public boolean logOff (HttpServletRequest request) {//разлогинивание пользователя
         User cur=new User();
-        cur=arraySessionId.get(request.getSession().getId());
-        if (this.checkRegistration(cur.login) && this.checkLogIn(request)) {
-            arraySessionId.remove(request.getSession().getId());
-            return true;
+        if (arraySessionId.containsKey(request.getSession().getId())) {
+            cur = arraySessionId.get(request.getSession().getId());
+            if (this.checkRegistration(cur.login) && this.checkLogIn(request)) {
+                arraySessionId.remove(request.getSession().getId());
+                return true;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            return false;
         }
     }
 
