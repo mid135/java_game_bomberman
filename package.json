@@ -1,0 +1,25 @@
+{
+  "name": "game",
+  "version": "0.0.0",
+  "description": "Технопарк@Mail.ru ============ Курс: Углубленное программирование на Java",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mid135/java_server.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/mid135/java_server/issues"
+  },
+  "devDependencies": {
+    "grunt-shell": "~1.1.1",
+    "grunt": "~0.4.5",
+    "grunt-fest": "~0.1.5",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-concurrent": "~1.0.0"
+  }
+}
