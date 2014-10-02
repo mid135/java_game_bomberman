@@ -8,6 +8,5 @@
 Москалюк Дмитрий, https://github.com/mid135,  moskalukdima@mail.ru <br>
 Нарек Абовян, https://github.com/naro91,  naro91@mail.ru
 
-
 Подробное о проекте можно прочесть на сайте [Технопарка] [1]
 [1]:http://tp.mail.ru
