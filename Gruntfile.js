@@ -14,7 +14,8 @@ module.exports = function (grunt) {
         server: {
                 files: [
                     'public_html/js/**/*.js', /* следим за статикой */
-                    'public_html/css/**/*.css'
+                    'public_html/css/**/*.css',
+                    'public_html/index.html'
                 ],
                 options: {
                     interrupt: true,
@@ -60,6 +61,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-fest');
+    
 
     grunt.registerTask('default', ['concurrent']);
 };
