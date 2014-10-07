@@ -28,7 +28,8 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+                //command: 'java -cp ./out/artifacts/server_jar/server.jar main.Main 8080'
+                command: 'java -cp ./out/artifacts/server_jar/server.jar servlets.Main 8080'
             }
         },
         fest: {
