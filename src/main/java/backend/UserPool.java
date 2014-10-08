@@ -1,9 +1,5 @@
 package backend;
 
-import org.eclipse.jetty.server.Request;
-
-import templater.User;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;

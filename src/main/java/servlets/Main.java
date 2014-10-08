@@ -2,10 +2,12 @@ package servlets;
 
 import backend.UserPool;
 import frontend.*;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import templater.User;
 
 /**
  * @author v.chibrikov
@@ -19,6 +21,7 @@ public class Main {
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
         Register register=new Register(pool);
+        Ind ind=new Ind();
 
         if (args.length != 1) {
             System.out.append("Use port as the first argument");
@@ -38,6 +41,16 @@ public class Main {
         context.addServlet(new ServletHolder(register),"/registration");
 
         context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
+
+        ResourceHandler resource_handler = new ResourceHandler();
+        resource_handler.setDirectoriesListed(true);
+        resource_handler.setResourceBase("public_html");
+
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[]{resource_handler, context});
+        server.setHandler(handlers);
+
+
         server.start();
         server.join();
     }

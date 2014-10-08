@@ -2,7 +2,6 @@ package backend;
 
 import org.junit.Before;
 import org.junit.Test;
-import templater.User;
 
 import static org.junit.Assert.*;
 

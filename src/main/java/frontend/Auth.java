@@ -3,7 +3,7 @@ package frontend;
 import backend.UserPool;
 import templater.PageGenerator;
 //.import templater.Pages;
-import templater.User;
+import backend.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
