@@ -3,7 +3,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         watch: {
             fest: {
-                files: ['templates/*.xml'],
+                files: ['public_html/templates/*.xml'],
                 tasks: ['fest'],
                 options: {
                     interrupt: true,
@@ -36,14 +36,14 @@ module.exports = function (grunt) {
             templates: {
                 files: [{
                     expand: true,
-                    cwd: 'templates',
+                    cwd: 'public_html/templates',
                     src: '*.xml',
                     dest: 'public_html/js/tmpl'
                 }],
                 options: {
                     template: function (data) {
                         return grunt.template.process(
-                            'var <%= name %>Tmpl = <%= contents %> ;',
+                            'define(function () { return <%= contents %> ; });',
                             {data: data}
                         );
                     }

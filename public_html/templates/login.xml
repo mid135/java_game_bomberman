@@ -1,0 +1,7 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+	<p>
+        <div><input type="text" name="login"></input></div>
+        <div><input type="text" name="password"></input></div>
+        <a href='#'> Back </a>
+	</p>
+</fest:template>
