@@ -25,11 +25,9 @@ public class Register extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-
         pageVariables.put("message", message == null ? "" : message);
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(PageGenerator.getPage("registration.html", pageVariables));
-
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//обработчик кнопки отлогинивания
@@ -47,7 +45,6 @@ public class Register extends HttpServlet {
                 pageVariables.put("message","Fail.Что-то пошло не так.");
             }
         }
-
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
     }

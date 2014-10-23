@@ -6,7 +6,6 @@ package frontend;
  */
 import backend.UserPool;
 import templater.PageGenerator;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,10 +28,7 @@ public class LogOff extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("message", message == null ? "" : message);
-
         boolean b=pool.logOff(request);
-
-
         response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
     }

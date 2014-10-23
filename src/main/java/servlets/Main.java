@@ -1,6 +1,6 @@
 package servlets;
 
-import backend.UserPool;
+import backend.test_memory_base.UserPool_mem;
 import frontend.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -14,13 +14,12 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        //Frontend frontend = new Frontend();
-
-        UserPool pool=new UserPool();//шлобальный пул юзеров и их сессий
+        UserPool_mem pool=new UserPool_mem();//глобальный пул юзеров и их сессий, сейчас из памяти все
 
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
         Register register=new Register(pool);
+
 
         if (args.length != 1) {
             System.out.append("Use port as the first argument");
@@ -38,7 +37,6 @@ public class Main {
         context.addServlet(new ServletHolder(auth), "/authform");
         context.addServlet(new ServletHolder(logoff), "/logoff");
         context.addServlet(new ServletHolder(register),"/registration");
-
         context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
 
         ResourceHandler resource_handler = new ResourceHandler();
@@ -48,7 +46,6 @@ public class Main {
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, context});
         server.setHandler(handlers);
-
 
         server.start();
         server.join();

@@ -2,20 +2,15 @@ package frontend;
 
 import backend.UserPool;
 import templater.PageGenerator;
-//.import templater.Pages;
 import backend.User;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-//import java.security.SecureRandom;
-//import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-//import static templater.Pages.*;
 
 /**
  * Created by narek on 13.09.14.
