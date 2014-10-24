@@ -14,7 +14,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        AccoutServiveImpMemory pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
+        AccoutServiveImpMemory pool = new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
 
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);

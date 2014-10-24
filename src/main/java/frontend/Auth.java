@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.AccountService;
+import backend.enums.AccountEnum;
 import templater.PageGenerator;
 import backend.User;
 import javax.servlet.ServletException;
@@ -31,7 +32,7 @@ public class Auth extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("message", message == null ? "" : message);
         response.setStatus(HttpServletResponse.SC_OK);
-        if (pool.checkLogIn(request)) {
+        if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn ) {
             User user;
             user = pool.getArraySessionId().get(request.getSession().getId());
             pageVariables.put("login",pool.getUsers().get(user.getLogin()).getLogin());
@@ -56,7 +57,7 @@ public class Auth extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
-        if (this.pool.logIn(login,password, request)) {
+        if (this.pool.logIn(login,password, request) == AccountEnum.LogInSuccess ) {
             //успех залогинивания
             pageVariables.put("message","Вход успешен");
 
