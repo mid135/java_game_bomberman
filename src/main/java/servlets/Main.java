@@ -8,13 +8,13 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
+import backend.AccountService;
 /**
  * @author v.chibrikov
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        AccoutServiveImpMemory pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
+        AccountService pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
 
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
