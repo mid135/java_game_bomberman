@@ -5,6 +5,7 @@ package frontend;
  * updated 300914 mid
  */
 import backend.AccountService;
+import backend.enums.AccountEnum;
 import templater.PageGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +29,7 @@ public class LogOff extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("message", message == null ? "" : message);
-        boolean b=pool.logOff(request);
+        //AccountEnum b = pool.logOff(request);
         response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
     }

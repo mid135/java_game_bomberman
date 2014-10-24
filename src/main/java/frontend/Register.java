@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.AccountService;
+import backend.enums.AccountEnum;
 import templater.PageGenerator;
 import backend.User;
 
@@ -37,10 +38,10 @@ public class Register extends HttpServlet {
         User user = new User(request.getParameter("login"),request.getParameter("password"),
                 request.getParameter("email") == null ? "Hello": request.getParameter("email"));
 
-        if(pool.checkRegistration(user.getLogin())) {
+        if(pool.checkRegistration(user.getLogin()) == AccountEnum.UserRegistered ) {
             pageVariables.put("message","Пользователь с таким именем уже зерегистрирован в системе!");
         } else {
-            if (pool.register(user)) {
+            if (pool.register(user) == AccountEnum.RegisterSuccess) {
                 pageVariables.put("message","Поздравляем, вы зарегистированы!");
             } else {
                 pageVariables.put("message","Fail.Что-то пошло не так.");

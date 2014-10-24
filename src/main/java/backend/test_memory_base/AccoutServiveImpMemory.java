@@ -50,7 +50,7 @@ public class AccoutServiveImpMemory implements AccountService {
     @Override
     public AccountEnum logIn(String login, String password,HttpServletRequest request) {//залогинивагние пользователя
         if (checkLogIn(request)==AccountEnum.UserNotLoggedIn) {
-            if (this.checkRegistration(login)==AccountEnum.UserRegistered && !arraySessionId.containsValue(login)) {// TODO эта проверка не совсем корректна
+            if ( (this.checkRegistration(login) == AccountEnum.UserRegistered) ) {// TODO эта проверка не совсем корректна
                 if (users.get(login).getPassword().equals(password)) {
                     arraySessionId.put(request.getSession().getId(), users.get(login));
                     return AccountEnum.LogInSuccess;
@@ -61,7 +61,7 @@ public class AccoutServiveImpMemory implements AccountService {
                 return AccountEnum.LogInFail;
             }
         } else {
-            return AccountEnum.UserLoggedIn;//TODO обдумать что делать, если юзер уже залогинен//изменение в свзя с enum
+            return AccountEnum.UserLoggedIn;//TODO обдумать что делать,  если юзер уже залогинен//изменение в свзя с enum
         }
 
     }
@@ -70,27 +70,28 @@ public class AccoutServiveImpMemory implements AccountService {
         User cur;
         if (arraySessionId.containsKey(request.getSession().getId())) {
             cur = arraySessionId.get(request.getSession().getId());
-            if (this.checkRegistration(cur.getLogin()) && this.checkLogIn(request)) {
+            if ( (this.checkRegistration(cur.getLogin()) == AccountEnum.UserRegistered)
+                    && (this.checkLogIn(request) == AccountEnum.UserLoggedIn) ) {
                 arraySessionId.remove(request.getSession().getId());
-                return true;
+                return AccountEnum.LogOffSuccess;
             } else {
-                return false;
+                return AccountEnum.LogOffFail;
             }
         } else {
-            return false;
+            return AccountEnum.LogOffFail;
         }
     }
     @Override
-    public boolean register(User user) {//регистрация пользователя
+    public AccountEnum register(User user) {//регистрация пользователя
         if (users.containsKey(user.getLogin())) {
-            return false;
+            return AccountEnum.UserAlreadyExists;
         } else {
             users.put(user.getLogin(), user);
-            return true;
+            return AccountEnum.RegisterSuccess;
         }
     }
     @Override
-    public boolean editProfile(User user) {
-        return true;
+    public AccountEnum editProfile(User user) {
+        return AccountEnum.EditSuccess;
     }
 }

@@ -8,10 +8,10 @@ public class User {
     private final String password;
     private final String email;
 
-    public User (String password,String email, String login) {
+    public User (String login,String password, String email) {
+        this.login = login;
         this.password = password;
         this.email = email;
-        this.login = login;
     }
 
     public String getLogin() {
