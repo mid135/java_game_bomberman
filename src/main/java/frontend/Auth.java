@@ -1,6 +1,6 @@
 package frontend;
 
-import backend.UserPool;
+import backend.AccountService;
 import templater.PageGenerator;
 import backend.User;
 import javax.servlet.ServletException;
@@ -16,13 +16,15 @@ import java.util.Map;
  * Created by narek on 13.09.14.
  */
 public class Auth extends HttpServlet {
-    public Auth(UserPool p) {
+    public AccountService pool;
+    private String message = "Введите логин и пароль для входа";
+
+    public Auth(AccountService p) {
         pool = p;
     }
-    private User user;//текущий пользователь
-    public UserPool pool;
 
-    private String message = "Введите логин и пароль для входа";
+
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
@@ -30,11 +32,11 @@ public class Auth extends HttpServlet {
         pageVariables.put("message", message == null ? "" : message);
         response.setStatus(HttpServletResponse.SC_OK);
         if (pool.checkLogIn(request)) {
-            User user = new User();
+            User user;
             user = pool.getArraySessionId().get(request.getSession().getId());
-            pageVariables.put("login",pool.getUsers().get(user.login).login);
-            pageVariables.put("password",pool.getUsers().get(user.login).password);
-            pageVariables.put("email",pool.getUsers().get(user.login).email);
+            pageVariables.put("login",pool.getUsers().get(user.getLogin()).getLogin());
+            pageVariables.put("password",pool.getUsers().get(user.getLogin()).getPassword());
+            pageVariables.put("email",pool.getUsers().get(user.getLogin()).getEmail());
             response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
         } else {
             response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
@@ -45,23 +47,22 @@ public class Auth extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
 
-        user = new User();
-        user.login = request.getParameter("login");
-        user.password = request.getParameter("password");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
 
-        if ((user.login == null || user.login.isEmpty()) && (user.password == null || user.password.isEmpty())) {
+        if ((login == null || login.isEmpty()) && (password == null || password.isEmpty())) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } else {
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
-        if (this.pool.logIn(user.login,user.password, request)) {
+        if (this.pool.logIn(login,password, request)) {
             //успех залогинивания
             pageVariables.put("message","Вход успешен");
 
-            pageVariables.put("login",pool.getUsers().get(user.login).login);
-            pageVariables.put("password",pool.getUsers().get(user.login).password);
-            pageVariables.put("email",pool.getUsers().get(user.login).email);
+            pageVariables.put("login",pool.getUsers().get(login).getLogin());
+            pageVariables.put("password",pool.getUsers().get(login).getPassword());
+            pageVariables.put("email",pool.getUsers().get(login).getEmail());
             response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
         } else {
             pageVariables.put("message","Неправильный логин и/или пароль");

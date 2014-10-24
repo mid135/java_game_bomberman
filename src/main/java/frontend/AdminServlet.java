@@ -1,6 +1,7 @@
 package frontend;
 
-import backend.UserPool;
+import backend.AccountService;
+
 import templater.PageGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,10 +16,12 @@ import java.util.Map;
  */
 public class AdminServlet extends HttpServlet {
     public static final String adminPageURL = "/admin";
-    private UserPool pool;
-    public AdminServlet(UserPool pool) {
+    private AccountService pool;
+
+    public AdminServlet(AccountService pool) {
         this.pool=pool;
     }
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");

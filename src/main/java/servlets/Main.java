@@ -1,6 +1,6 @@
 package servlets;
 
-import backend.test_memory_base.UserPool_mem;
+import backend.test_memory_base.AccoutServiveImpMemory;
 import frontend.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -14,7 +14,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        UserPool_mem pool=new UserPool_mem();//глобальный пул юзеров и их сессий, сейчас из памяти все
+        AccoutServiveImpMemory pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
 
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);

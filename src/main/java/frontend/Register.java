@@ -1,6 +1,6 @@
 package frontend;
 
-import backend.UserPool;
+import backend.AccountService;
 import templater.PageGenerator;
 import backend.User;
 
@@ -17,11 +17,13 @@ import java.util.Map;
  */
 public class Register extends HttpServlet {
     String message;
-    UserPool pool;
+    AccountService pool;
     Map<String, Object> pageVariables = new HashMap<>();
-    public Register(UserPool users) {
+
+    public Register(AccountService users) {
         this.pool = users;
     }
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
@@ -32,11 +34,10 @@ public class Register extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//обработчик кнопки отлогинивания
         response.setContentType("text/html;charset=utf-8");
-        User user = new User();
-        user.login = request.getParameter("login");
-        user.password = request.getParameter("password");
-        user.email = request.getParameter("email") == null ? "Hello": request.getParameter("email");
-        if(pool.checkRegistration(user.login)) {
+        User user = new User(request.getParameter("login"),request.getParameter("password"),
+                request.getParameter("email") == null ? "Hello": request.getParameter("email"));
+
+        if(pool.checkRegistration(user.getLogin())) {
             pageVariables.put("message","Пользователь с таким именем уже зерегистрирован в системе!");
         } else {
             if (pool.register(user)) {

@@ -1,6 +1,10 @@
 package backend;
 
+import backend.enums.AccountEnum;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 
 /**
  * Created by mid on 23.10.14.
@@ -11,10 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 //API еще не окончательно, додумать!
 public interface AccountService {
 
-    public boolean checkRegistration(String userName) ;//проверка регистрации пользователя
-    public boolean checkLogIn (HttpServletRequest request) ;//проверка залогинен ли пользватель
-    public boolean logIn(String login, String password,HttpServletRequest request);//залогинивагние пользователя
-    public boolean logOff (HttpServletRequest request) ;//разлогинивание пользователя
-    public boolean register(User user);//регистрация пользователя
-    public boolean editProfile(User user);//изменение профиля
+    public Map<String, User> getArraySessionId();
+    public Map<String, User> getUsers();
+
+    public AccountEnum checkRegistration(String userName) ;//проверка регистрации пользователя
+    public AccountEnum checkLogIn (HttpServletRequest request) ;//проверка залогинен ли пользватель
+    public AccountEnum logIn(String login, String password,HttpServletRequest request);//залогинивагние пользователя
+    public AccountEnum logOff (HttpServletRequest request) ;//разлогинивание пользователя
+    public AccountEnum register(User user);//регистрация пользователя
+    public AccountEnum editProfile(User user);//изменение профиля
 }

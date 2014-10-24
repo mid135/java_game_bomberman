@@ -4,7 +4,7 @@ package frontend;
  * Created by narek on 27.09.14.
  * updated 300914 mid
  */
-import backend.UserPool;
+import backend.AccountService;
 import templater.PageGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +18,8 @@ import java.util.Map;
 // класс для выхода из нашего акаунта
 public class LogOff extends HttpServlet {
     private String message = "Введите логин и пароль для входа";
-    private UserPool pool;
-    public LogOff(UserPool pool) {
+    private AccountService pool;
+    public LogOff(AccountService pool) {
         this.pool=pool;
     }
 

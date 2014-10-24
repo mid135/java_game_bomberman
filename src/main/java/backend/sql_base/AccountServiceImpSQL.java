@@ -5,6 +5,6 @@ package backend.sql_base;
  */
 
 //this should be an extention of userPool
-public class UserPool_sql {
+public class AccountServiceImpSQL {
 
 }
