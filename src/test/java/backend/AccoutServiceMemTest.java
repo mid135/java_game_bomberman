@@ -9,14 +9,14 @@ import javax.servlet.http.*;
 
 import static org.junit.Assert.*;
 
-public class UserPoolMemTest {
+public class AccoutServiceMemTest {
     private AccoutServiveImpMemory pool=new AccoutServiveImpMemory();
     private static HttpServletRequest request;
     private static HttpSession session;
 
     @Before
     public void createUsers() {
-        User user = new User("123","123","123");
+        User user = new User("mid","123","em");
         request = mock(HttpServletRequest.class);
         session = mock(HttpSession.class);
         when(request.getSession()).thenReturn(session);
@@ -28,11 +28,11 @@ public class UserPoolMemTest {
     }
     @Test
     public void testLogIn() throws Exception {
-        when(request.getParameter("login")).thenReturn("123");
+        when(request.getParameter("login")).thenReturn("mid");
         when(request.getParameter("password")).thenReturn("123");
-        when(request.getParameter("email")).thenReturn("123");
+        when(request.getParameter("email")).thenReturn("em");
 
-        pool.logIn("123","123",request);
-        assertEquals("123",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
+        pool.logIn("mid","123",request);
+        assertEquals("mid",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
     }
 }
