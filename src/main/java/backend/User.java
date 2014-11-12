@@ -26,6 +26,13 @@ public class User {
         return email;
     }
 
+    public boolean equals(User obj) {
+        if (obj.getLogin().equals(this.getLogin())&&(obj.getPassword().equals(this.getPassword())&&(obj.getEmail().equals(this.getEmail())) )) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }

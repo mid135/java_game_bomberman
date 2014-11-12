@@ -15,6 +15,7 @@ define([
         },
         render: function () {
             this.$el.html(this.template);
+
         },
         show: function () {
             // TODO

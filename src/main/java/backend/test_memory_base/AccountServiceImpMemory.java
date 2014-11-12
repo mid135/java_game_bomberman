@@ -18,7 +18,7 @@ import java.util.Map;
 
 //TODO предусмотреть случаи когда
     // от одного компа логинится сверху кто-то
-public class AccoutServiveImpMemory implements AccountService {
+public class AccountServiceImpMemory implements AccountService {
 
     private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/User
     private Map<String, User> users = new HashMap<>();//все зарегистрированые юзеры - логин/User
@@ -67,16 +67,9 @@ public class AccoutServiveImpMemory implements AccountService {
     }
     @Override
     public AccountEnum logOff (HttpServletRequest request) {//разлогинивание пользователя
-        User cur;
-        if (arraySessionId.containsKey(request.getSession().getId())) {
-            cur = arraySessionId.get(request.getSession().getId());
-            if ( (this.checkRegistration(cur.getLogin()) == AccountEnum.UserRegistered)
-                    && (this.checkLogIn(request) == AccountEnum.UserLoggedIn) ) {
-                arraySessionId.remove(request.getSession().getId());
-                return AccountEnum.LogOffSuccess;
-            } else {
-                return AccountEnum.LogOffFail;
-            }
+        if (checkLogIn(request)== AccountEnum.UserLoggedIn) {
+            arraySessionId.remove(request.getSession().getId());
+            return AccountEnum.LogOffSuccess;
         } else {
             return AccountEnum.LogOffFail;
         }
@@ -90,6 +83,8 @@ public class AccoutServiveImpMemory implements AccountService {
             return AccountEnum.RegisterSuccess;
         }
     }
+
+    //TODO напотом
     @Override
     public AccountEnum editProfile(User user) {
         return AccountEnum.EditSuccess;

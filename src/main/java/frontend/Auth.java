@@ -25,49 +25,51 @@ public class Auth extends HttpServlet {
     }
 
 
-
+    private void sendPage(HttpServletResponse response, Map<String, Object> pageVariables, String pageName) throws IOException{
+        response.setContentType("text/html;charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(PageGenerator.getPage(pageName, pageVariables));
+    }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("message", message == null ? "" : message);
-        response.setStatus(HttpServletResponse.SC_OK);
         if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn ) {
             User user;
             user = pool.getArraySessionId().get(request.getSession().getId());
             pageVariables.put("login",pool.getUsers().get(user.getLogin()).getLogin());
             pageVariables.put("password",pool.getUsers().get(user.getLogin()).getPassword());
             pageVariables.put("email",pool.getUsers().get(user.getLogin()).getEmail());
-            response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
+            sendPage(response,pageVariables,"profileUser");
         } else {
-            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+            pageVariables.put("message", "Здавствуйте, незнакомец!");
+            sendPage(response,pageVariables,"authform.html");
         }
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//это кнопка залогинивания на форме авторизации
-        response.setContentType("text/html;charset=utf-8");
+
         Map<String, Object> pageVariables = new HashMap<>();
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
         if ((login == null || login.isEmpty()) && (password == null || password.isEmpty())) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
+            pageVariables.put("message","Введите пароль и логин! Пустые поля недопустимы!");
+            sendPage(response,pageVariables,"authform.html");
+            return;
         }
 
         if (this.pool.logIn(login,password, request) == AccountEnum.LogInSuccess ) {
             //успех залогинивания
-            pageVariables.put("message","Вход успешен");
-
             pageVariables.put("login",pool.getUsers().get(login).getLogin());
             pageVariables.put("password",pool.getUsers().get(login).getPassword());
             pageVariables.put("email",pool.getUsers().get(login).getEmail());
-            response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
+            pageVariables.put("message","Вход выполнен успешно");
+            sendPage(response,pageVariables,"profileUser.html");
         } else {
             pageVariables.put("message","Неправильный логин и/или пароль");
-            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+            sendPage(response,pageVariables,"authform.html");
         }
 
 

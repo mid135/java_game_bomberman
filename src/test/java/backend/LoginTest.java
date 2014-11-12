@@ -1,6 +1,6 @@
 package backend;
 
-import backend.test_memory_base.AccoutServiveImpMemory;
+import backend.test_memory_base.AccountServiceImpMemory;
 import com.sun.istack.internal.NotNull;
 import frontend.AdminServlet;
 import frontend.Auth;
@@ -75,7 +75,7 @@ public class LoginTest {
     }
 
     public static void main(String[] args) throws Exception {
-        AccountService pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
+        AccountService pool=new AccountServiceImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
 
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);

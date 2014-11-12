@@ -4,6 +4,7 @@ package frontend;
  * Created by narek on 27.09.14.
  * updated 300914 mid
  */
+
 import backend.AccountService;
 import backend.enums.AccountEnum;
 import templater.PageGenerator;
@@ -24,14 +25,20 @@ public class LogOff extends HttpServlet {
         this.pool=pool;
     }
 
+    private void sendPage(HttpServletResponse response,Map<String, Object> pageVariables, String pageName) throws IOException{
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().println(PageGenerator.getPage(pageName, pageVariables));
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
     public void doPost(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
+
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("message", message == null ? "" : message);
-        //AccountEnum b = pool.logOff(request);
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
-        response.setStatus(HttpServletResponse.SC_OK);
+        pool.logOff(request);
+        sendPage(response,pageVariables,"authform.html");
+
     }
 
 }

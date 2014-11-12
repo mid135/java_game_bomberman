@@ -25,16 +25,22 @@ public class Register extends HttpServlet {
         this.pool = users;
     }
 
+
+    private void sendPage(HttpServletResponse response, Map<String, Object> pageVariables, String pageName) throws IOException{
+        response.setContentType("text/html;charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(PageGenerator.getPage(pageName, pageVariables));
+    }
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
+
         pageVariables.put("message", message == null ? "" : message);
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(PageGenerator.getPage("registration.html", pageVariables));
+        sendPage(response,pageVariables,"registration.html");
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//обработчик кнопки отлогинивания
-        response.setContentType("text/html;charset=utf-8");
+
         User user = new User(request.getParameter("login"),request.getParameter("password"),
                 request.getParameter("email") == null ? "Hello": request.getParameter("email"));
 
@@ -47,7 +53,6 @@ public class Register extends HttpServlet {
                 pageVariables.put("message","Fail.Что-то пошло не так.");
             }
         }
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        sendPage(response,pageVariables,"authform.html");
     }
 }
