@@ -9,6 +9,10 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import backend.AccountService;
+import resources.ResourceFactory;
+
+import java.util.Map;
+
 /**
  * @author v.chibrikov
  */
@@ -49,5 +53,7 @@ public class Main {
 
         server.start();
         server.join();
+
+
     }
 }

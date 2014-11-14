@@ -6,6 +6,7 @@ package frontend;
  */
 import backend.AccountService;
 import backend.enums.AccountEnum;
+import resources.ResourceFactory;
 import templater.PageGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,17 +19,21 @@ import java.util.Map;
 
 // класс для выхода из нашего акаунта
 public class LogOff extends HttpServlet {
-    private String message = "Введите логин и пароль для входа";
+    private Map<String, String> mapMessage;
     private AccountService pool;
     public LogOff(AccountService pool) {
-        this.pool=pool;
+        this.pool = pool;
+        Object obj = ResourceFactory.getObject("./data/LogOff.xml");
+        if (obj instanceof Map) {
+            mapMessage = (Map) obj;
+        }
     }
 
     public void doPost(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("message", message == null ? "" : message);
+        pageVariables.put("message", mapMessage == null ? "" : mapMessage.get("welcome"));
         //AccountEnum b = pool.logOff(request);
         response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
         response.setStatus(HttpServletResponse.SC_OK);

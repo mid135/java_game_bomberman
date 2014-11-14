@@ -2,6 +2,7 @@ package frontend;
 
 import backend.AccountService;
 import backend.enums.AccountEnum;
+import resources.ResourceFactory;
 import templater.PageGenerator;
 import backend.User;
 import javax.servlet.ServletException;
@@ -18,10 +19,14 @@ import java.util.Map;
  */
 public class Auth extends HttpServlet {
     public AccountService pool;
-    private String message = "Введите логин и пароль для входа";
+    private Map<String, String> mapMessage;
 
     public Auth(AccountService p) {
         pool = p;
+        Object obj = ResourceFactory.getObject("./data/Auth.xml");
+        if (obj instanceof Map) {
+            mapMessage = (Map) obj;
+        }
     }
 
 
@@ -30,7 +35,7 @@ public class Auth extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("message", message == null ? "" : message);
+        pageVariables.put("message", mapMessage == null ? "" : mapMessage.get("welcome"));
         response.setStatus(HttpServletResponse.SC_OK);
         if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn ) {
             User user;
@@ -59,14 +64,14 @@ public class Auth extends HttpServlet {
 
         if (this.pool.logIn(login,password, request) == AccountEnum.LogInSuccess ) {
             //успех залогинивания
-            pageVariables.put("message","Вход успешен");
+            pageVariables.put("message",mapMessage.get("success"));
 
             pageVariables.put("login",pool.getUsers().get(login).getLogin());
             pageVariables.put("password",pool.getUsers().get(login).getPassword());
             pageVariables.put("email",pool.getUsers().get(login).getEmail());
             response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
         } else {
-            pageVariables.put("message","Неправильный логин и/или пароль");
+            pageVariables.put("message",mapMessage.get("fail"));
             response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
         }
 

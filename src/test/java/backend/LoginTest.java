@@ -74,6 +74,7 @@ public class LoginTest {
         driver.quit();
     }
 
+
     public static void main(String[] args) throws Exception {
         AccountService pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
 

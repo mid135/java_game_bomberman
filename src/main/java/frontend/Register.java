@@ -2,6 +2,7 @@ package frontend;
 
 import backend.AccountService;
 import backend.enums.AccountEnum;
+import resources.ResourceFactory;
 import templater.PageGenerator;
 import backend.User;
 
@@ -17,18 +18,22 @@ import java.util.Map;
  * Created by mid on 27.09.14.
  */
 public class Register extends HttpServlet {
-    String message;
+    private Map<String, String> mapMessage;
     AccountService pool;
     Map<String, Object> pageVariables = new HashMap<>();
 
     public Register(AccountService users) {
         this.pool = users;
+        Object obj = ResourceFactory.getObject("./data/Register.xml");
+        if (obj instanceof Map) {
+            mapMessage = (Map) obj;
+        }
     }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        pageVariables.put("message", message == null ? "" : message);
+        pageVariables.put("message",  "" );
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(PageGenerator.getPage("registration.html", pageVariables));
     }
@@ -39,12 +44,12 @@ public class Register extends HttpServlet {
                 request.getParameter("email") == null ? "Hello": request.getParameter("email"));
 
         if(pool.checkRegistration(user.getLogin()) == AccountEnum.UserRegistered ) {
-            pageVariables.put("message","Пользователь с таким именем уже зерегистрирован в системе!");
+            pageVariables.put("message",mapMessage.get("userExist"));
         } else {
             if (pool.register(user) == AccountEnum.RegisterSuccess) {
-                pageVariables.put("message","Поздравляем, вы зарегистированы!");
+                pageVariables.put("message",mapMessage.get("success"));
             } else {
-                pageVariables.put("message","Fail.Что-то пошло не так.");
+                pageVariables.put("message",mapMessage.get("fail"));
             }
         }
         response.setStatus(HttpServletResponse.SC_OK);

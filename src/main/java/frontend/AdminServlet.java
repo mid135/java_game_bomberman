@@ -2,6 +2,7 @@ package frontend;
 
 import backend.AccountService;
 
+import resources.ResourceFactory;
 import templater.PageGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class AdminServlet extends HttpServlet {
     public static final String adminPageURL = "/admin";
     private AccountService pool;
+
 
     public AdminServlet(AccountService pool) {
         this.pool=pool;
