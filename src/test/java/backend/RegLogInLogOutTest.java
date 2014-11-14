@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /**
  * Created by narek on 24.10.14.
  */
-public class LoginTest {
+public class RegLogInLogOutTest {
 
     public static void testRegistrate(@NotNull String url,@NotNull String username,@NotNull String password, @NotNull String email) {
         WebDriver driver = new HtmlUnitDriver(true);
