@@ -1,0 +1,5 @@
+<class type='java.util.HashMap'>
+	<welcome>Введите логин и пароль для входа</welcome>
+	<success>Вход успешен</success>
+	<fail>Неправильный логин и/или пароль</fail>
+</class>

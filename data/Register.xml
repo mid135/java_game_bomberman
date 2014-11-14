@@ -1,0 +1,5 @@
+<class type='java.util.HashMap'>
+	<fail>Fail.Что-то пошло не так.</fail>
+	<userExist>Пользователь с таким именем уже зерегистрирован в системе!</userExist>
+	<success>Поздравляем, вы зарегистированы!</success>
+</class>
