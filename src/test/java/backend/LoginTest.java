@@ -34,24 +34,25 @@ public class LoginTest {
         elementPassword.sendKeys(password);
         WebElement elementEmail = driver.findElement(By.name("email"));
         elementEmail.sendKeys(email);
+        WebElement elementButton = driver.findElement(By.id("inputData"));
+
 // Now submit the form. WebDriver will find the form for us from the element
-        elementUsername.submit();
-        elementPassword.submit();
-        elementEmail.submit();
+        elementButton.click();
 // Wait for the page to load, timeout after 10 seconds
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             @Override
             @NotNull
             public Boolean apply(@NotNull WebDriver d) {
-                final String result = d.findElement(By.name("message")).getText();
-                System.out.println(d.findElement(By.name("message")).getText());
+                final String result = d.findElement(By.id("mess")).getText();
+                System.out.println(d.findElement(By.id("mess")).getText());
                 return (result.equals("Поздравляем, вы зарегистированы!"));
             }
         });
-
+        System.out.println("Тест на регистрацию пройден !");
         driver.quit();
     }
-    public static void testLogin(@NotNull String url,@NotNull String username,@NotNull String password) {
+
+    public static void testLoginLogOut(@NotNull String url,@NotNull String username,@NotNull String password) {
         WebDriver driver = new HtmlUnitDriver(true);
         driver.get(url);
 // Find the text input element by its name
@@ -59,59 +60,40 @@ public class LoginTest {
                 elementUsername.sendKeys(username);
         WebElement elementPassword = driver.findElement(By.name("password"));
                 elementPassword.sendKeys(password);
+        WebElement elementButton = driver.findElement(By.id("inputData"));
+
 // Now submit the form. WebDriver will find the form for us from the element
-        elementUsername.submit();
-        elementPassword.submit();
+        elementButton.click();
 // Wait for the page to load, timeout after 10 seconds
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             @Override
             @NotNull
             public Boolean apply(@NotNull WebDriver d) {
-                final String result = d.findElement(By.name("message")).getText();
+                final String result = d.findElement(By.id("mess")).getText();
+                System.out.println(result);
                 return (result.equals("Вход успешен"));
             }
         });
+        System.out.println("Тест на авторизацию пройден !");
+        elementButton = driver.findElement(By.id("inputData"));
+        elementButton.click();
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            @Override
+            @NotNull
+            public Boolean apply(@NotNull WebDriver d) {
+                final String result = d.findElement(By.id("mess")).getText();
+                System.out.println(result);
+                return (result.equals("Введите логин и пароль для входа"));
+            }
+        });
+        System.out.println("Тест на LogOut пройден !");
         driver.quit();
     }
 
 
-    public static void main(String[] args) throws Exception {
-        AccountService pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
-
-        Auth auth = new Auth(pool);
-        LogOff logoff = new LogOff(pool);
-        Register register=new Register(pool);
-
-
-        if (args.length != 1) {
-            System.out.append("Use port as the first argument");
-            System.exit(1);
-        }
-
-        String portString = args[0];
-        int port = Integer.valueOf(portString);
-        System.out.append("Starting at port: ").append(portString).append('\n');
-
-        Server server = new Server(port);
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        server.setHandler(context);
-
-        context.addServlet(new ServletHolder(auth), "/authform");
-        context.addServlet(new ServletHolder(logoff), "/logoff");
-        context.addServlet(new ServletHolder(register),"/registration");
-        context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
-
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
-        resource_handler.setResourceBase("public_html");
-
-        HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, context});
-        server.setHandler(handlers);
-
-        server.start();
-        server.join();
-        testRegistrate("http://localhost:8080/registration", "naro91", "123", "naro91@mail.ru");
-        //testLogin();
+    public static void main(String[] args) {
+        testRegistrate("http://localhost:8080/registration", "naro91", "password", "naro91@mail.ru");
+        testLoginLogOut("http://localhost:8080/authform", "naro91", "password");
     }
+
 }
