@@ -5,7 +5,6 @@ package frontend;
  * updated 300914 mid
  */
 import backend.AccountService;
-import backend.enums.AccountEnum;
 import resources.ResourceFactory;
 import templater.PageGenerator;
 import javax.servlet.ServletException;
@@ -23,10 +22,7 @@ public class LogOff extends HttpServlet {
     private AccountService pool;
     public LogOff(AccountService pool) {
         this.pool = pool;
-        Object obj = ResourceFactory.getObject("./data/LogOff.xml");
-        if (obj instanceof Map) {
-            mapMessage = (Map) obj;
-        }
+        mapMessage = ResourceFactory.instance().getResource("./data/LogOff.xml");
     }
 
     public void doPost(HttpServletRequest request,

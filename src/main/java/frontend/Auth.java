@@ -23,10 +23,7 @@ public class Auth extends HttpServlet {
 
     public Auth(AccountService p) {
         pool = p;
-        Object obj = ResourceFactory.getObject("./data/Auth.xml");
-        if (obj instanceof Map) {
-            mapMessage = (Map) obj;
-        }
+        mapMessage = ResourceFactory.instance().getResource("./data/Auth.xml");
     }
 
 

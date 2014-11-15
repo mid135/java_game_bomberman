@@ -24,10 +24,7 @@ public class Register extends HttpServlet {
 
     public Register(AccountService users) {
         this.pool = users;
-        Object obj = ResourceFactory.getObject("./data/Register.xml");
-        if (obj instanceof Map) {
-            mapMessage = (Map) obj;
-        }
+        mapMessage = ResourceFactory.instance().getResource("./data/Register.xml");
     }
 
     public void doGet(HttpServletRequest request,

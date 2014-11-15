@@ -19,6 +19,8 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * Created by narek on 24.10.14.
  */
@@ -39,17 +41,23 @@ public class RegLogInLogOutTest {
 // Now submit the form. WebDriver will find the form for us from the element
         elementButton.click();
 // Wait for the page to load, timeout after 10 seconds
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            @Override
-            @NotNull
-            public Boolean apply(@NotNull WebDriver d) {
-                final String result = d.findElement(By.id("mess")).getText();
-                System.out.println(d.findElement(By.id("mess")).getText());
-                return (result.equals("Поздравляем, вы зарегистированы!"));
-            }
-        });
-        System.out.println("Тест на регистрацию пройден !");
-        driver.quit();
+        try{
+            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+                @Override
+                @NotNull
+                public Boolean apply(@NotNull WebDriver d) {
+                    final String result = d.findElement(By.id("mess")).getText();
+                    System.out.println(result);
+                    //assertEquals
+                    return (result.equals("Поздравляем, вы зарегистированы!"));
+                }
+            });
+            System.out.println("Тест на регистрацию пройден !");
+        } catch(org.openqa.selenium.TimeoutException e) {
+            System.out.println("Тест на регистрацию не пройден !");
+        } finally {
+            driver.quit();
+        }
     }
 
     public static void testLoginLogOut(@NotNull String url,@NotNull String username,@NotNull String password) {
@@ -65,29 +73,40 @@ public class RegLogInLogOutTest {
 // Now submit the form. WebDriver will find the form for us from the element
         elementButton.click();
 // Wait for the page to load, timeout after 10 seconds
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            @Override
-            @NotNull
-            public Boolean apply(@NotNull WebDriver d) {
-                final String result = d.findElement(By.id("mess")).getText();
-                System.out.println(result);
-                return (result.equals("Вход успешен"));
-            }
-        });
-        System.out.println("Тест на авторизацию пройден !");
+        try {
+            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+                @Override
+                @NotNull
+                public Boolean apply(@NotNull WebDriver d) {
+                    final String result = d.findElement(By.id("mess")).getText();
+                    System.out.println(result);
+                    return (result.equals("Вход успешен"));
+                }
+            });
+            System.out.println("Тест на авторизацию пройден !");
+        }catch (org.openqa.selenium.TimeoutException e){
+            System.out.println("Тест на авторизацию не пройден !");
+        }
+
         elementButton = driver.findElement(By.id("inputData"));
         elementButton.click();
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            @Override
-            @NotNull
-            public Boolean apply(@NotNull WebDriver d) {
-                final String result = d.findElement(By.id("mess")).getText();
-                System.out.println(result);
-                return (result.equals("Введите логин и пароль для входа"));
-            }
-        });
-        System.out.println("Тест на LogOut пройден !");
-        driver.quit();
+        try {
+            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+                @Override
+                @NotNull
+                public Boolean apply(@NotNull WebDriver d) {
+                    final String result = d.findElement(By.id("mess")).getText();
+                    System.out.println(result);
+                    return (result.equals("Введите логин и пароль для входа"));
+                }
+            });
+            System.out.println("Тест на LogOut пройден !");
+        }catch (org.openqa.selenium.TimeoutException e) {
+            System.out.println("Тест на LogOut пройден !");
+        }finally {
+            driver.quit();
+        }
+
     }
 
 

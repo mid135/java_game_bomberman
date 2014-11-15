@@ -8,18 +8,18 @@ public class ResourceFactory {
 
     public static ResourceFactory instance () {
         if (resourceFactory != null) {
-            return resourceFactory;
         } else {
             resourceFactory = new ResourceFactory();
-            return resourceFactory;
         }
+        return resourceFactory;
     }
 
     private ResourceFactory () {
 
     }
 
-    public static Object getObject(String xmlFile) {
+    @SuppressWarnings("unchecked")
+    public <T> T getResource(String xmlFile) {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
@@ -27,7 +27,7 @@ public class ResourceFactory {
             Handler handler = new Handler();
             saxParser.parse(xmlFile, handler);
 
-            return handler.getObject();
+            return (T)handler.getObject();
 
         } catch (Exception e) {
             e.printStackTrace();
