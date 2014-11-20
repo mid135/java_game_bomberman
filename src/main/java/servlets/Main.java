@@ -15,6 +15,7 @@ import backend.sql_base.AccountServiceImplSQL;
  * @author v.chibrikov
  */
 public class Main {
+    
     public static void main(String[] args) throws Exception {
         //AccountService pool = new AccoutServiceImplMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
         AccountService pool = new AccountServiceImplSQL();
