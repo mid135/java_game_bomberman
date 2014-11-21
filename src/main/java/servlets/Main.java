@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import backend.AccountService;
 import resources.ResourceFactory;
+import resources.classesForResources.NumberPort;
 
 import java.util.Map;
 
@@ -19,22 +20,22 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) throws Exception {
         AccountService pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
-
+        NumberPort port = ResourceFactory.instance().getResource("./data/Port.xml");
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
         Register register=new Register(pool);
 
 
-        if (args.length != 1) {
+        /*if (args.length != 1) {
             System.out.append("Use port as the first argument");
             System.exit(1);
         }
 
         String portString = args[0];
-        int port = Integer.valueOf(portString);
-        System.out.append("Starting at port: ").append(portString).append('\n');
+        int port = Integer.valueOf(portString);*/
+        System.out.append("Starting at port: ").append(port.toString()).append('\n');
 
-        Server server = new Server(port);
+        Server server = new Server(port.numberPort);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         server.setHandler(context);
 
