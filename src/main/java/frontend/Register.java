@@ -1,10 +1,12 @@
 package frontend;
 
 import backend.AccountService;
+import backend.UserImplMemory;
 import backend.enums.AccountEnum;
+import backend.sql_base.dataSets.UserDataSet;
+import backend.test_memory_base.User;
 import resources.ResourceFactory;
 import templater.PageGenerator;
-import backend.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,15 +32,18 @@ public class Register extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        pageVariables.put("message",  "" );
+        pageVariables.put("message",  mapMessage.get("welcome") );
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(PageGenerator.getPage("registration.html", pageVariables));
     }
+
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//обработчик кнопки отлогинивания
         response.setContentType("text/html;charset=utf-8");
-        User user = new User(request.getParameter("login"),request.getParameter("password"),
-                request.getParameter("email") == null ? "Hello": request.getParameter("email"));
+        User user = new UserDataSet(request.getParameter("login"),request.getParameter("password"),
+                request.getParameter("email") == null ? "default@mail.ru": request.getParameter("email"));
+       // User user = new UserImplMemory(request.getParameter("login"),request.getParameter("password"),
+               // request.getParameter("email") == null ? "default@mail.ru": request.getParameter("email"));
 
         if(pool.checkRegistration(user.getLogin()) == AccountEnum.UserRegistered ) {
             pageVariables.put("message",mapMessage.get("userExist"));

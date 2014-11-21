@@ -1,7 +1,7 @@
 package backend.test_memory_base;
 
 import backend.AccountService;
-import backend.User;
+import backend.UserImplMemory;
 import backend.enums.AccountEnum;
 
 
@@ -18,10 +18,10 @@ import java.util.Map;
 
 //TODO предусмотреть случаи когда
     // от одного компа логинится сверху кто-то
-public class AccoutServiveImpMemory implements AccountService {
+public class AccoutServiceImplMemory implements AccountService {
 
-    private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/User
-    private Map<String, User> users = new HashMap<>();//все зарегистрированые юзеры - логин/User
+    private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/UserImplMemory
+    private Map<String, User> users = new HashMap<>();//все зарегистрированые юзеры - логин/UserImplMemory
 
 
     @Override
@@ -67,9 +67,9 @@ public class AccoutServiveImpMemory implements AccountService {
     }
     @Override
     public AccountEnum logOff (HttpServletRequest request) {//разлогинивание пользователя
-        User cur;
+        UserImplMemory cur;
         if (arraySessionId.containsKey(request.getSession().getId())) {
-            cur = arraySessionId.get(request.getSession().getId());
+            cur = (UserImplMemory) arraySessionId.get(request.getSession().getId());
             if ( (this.checkRegistration(cur.getLogin()) == AccountEnum.UserRegistered)
                     && (this.checkLogIn(request) == AccountEnum.UserLoggedIn) ) {
                 arraySessionId.remove(request.getSession().getId());

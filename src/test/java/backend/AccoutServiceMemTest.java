@@ -1,6 +1,6 @@
 package backend;
 
-import backend.test_memory_base.AccoutServiveImpMemory;
+import backend.test_memory_base.AccoutServiceImplMemory;
 import org.junit.Before;
 import org.junit.Test;
 import  static org.mockito.Mockito.*;
@@ -10,17 +10,17 @@ import javax.servlet.http.*;
 import static org.junit.Assert.*;
 
 public class AccoutServiceMemTest {
-    private AccoutServiveImpMemory pool=new AccoutServiveImpMemory();
+    private AccoutServiceImplMemory pool=new AccoutServiceImplMemory();
     private static HttpServletRequest request;
     private static HttpSession session;
 
     @Before
     public void createUsers() {
-        User user = new User("mid","123","em");
+        UserImplMemory userImplMemory = new UserImplMemory("mid","123","em");
         request = mock(HttpServletRequest.class);
         session = mock(HttpSession.class);
         when(request.getSession()).thenReturn(session);
-        pool.register(user);
+        pool.register(userImplMemory);
     }
     @Test
     public void testRegister() throws Exception {

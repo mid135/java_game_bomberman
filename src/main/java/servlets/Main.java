@@ -1,6 +1,5 @@
 package servlets;
 
-import backend.test_memory_base.AccoutServiveImpMemory;
 import frontend.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -11,15 +10,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import backend.AccountService;
 import resources.ResourceFactory;
 import resources.classesForResources.NumberPort;
-
-import java.util.Map;
-
+import backend.sql_base.AccountServiceImplSQL;
 /**
  * @author v.chibrikov
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        AccountService pool=new AccoutServiveImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
+        //AccountService pool = new AccoutServiceImplMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
+        AccountService pool = new AccountServiceImplSQL();
         NumberPort port = ResourceFactory.instance().getResource("./data/Port.xml");
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
@@ -54,7 +52,6 @@ public class Main {
 
         server.start();
         server.join();
-
 
     }
 }
