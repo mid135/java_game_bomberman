@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import resources.ResourceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -23,12 +24,13 @@ import java.util.Map;
 //this should be an extention of userPool
 public class AccountServiceImplSQL implements AccountService {
     private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/UserImplMemory
-    //private Map<String, UserImplMemory> users = new HashMap<>();//все зарегистрированые юзеры - логин/UserImplMemory
+    private Map<String, String> propertyForConfiguration = null;
     private UserDataSetDAO dao;
     private Configuration configuration;
     private SessionFactory sessionFactory;
 
     public AccountServiceImplSQL() {
+        propertyForConfiguration = ResourceFactory.instance().getResource("./data/propertyForConfiguration.xml"); //настройки работы класса Configuration
         configuration = new Configuration();
         configuration.addAnnotatedClass(UserDataSet.class);
 
@@ -40,22 +42,12 @@ public class AccountServiceImplSQL implements AccountService {
         session.close();
 
         dao = new UserDataSetDAO(sessionFactory);
-        //dao.save(new UserDataSet("Narek", "kocmoc", "naro91@mail.ru"));
-        //dao.save(new UserDataSet("sully"));
-
-        //UserDataSet dataSet = dao.read(1);
-
-        //dataSet = dao.readByName("sully");
     }
 
-    public static SessionFactory createSessionFactory(Configuration configuration) {
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/JavaProject");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "kocmoc");
-        configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+    public SessionFactory createSessionFactory(Configuration configuration) {
+        for (Map.Entry<String, String> property : propertyForConfiguration.entrySet()) {
+            configuration.setProperty(property.getKey(), property.getValue()); //установка свойств конфигурации
+        }
 
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
         builder.applySettings(configuration.getProperties());

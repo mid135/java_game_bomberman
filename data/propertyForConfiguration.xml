@@ -1,0 +1,9 @@
+<class type='java.util.HashMap'>
+	<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+	<hibernate.connection.driver_class>com.mysql.jdbc.Driver</hibernate.connection.driver_class>
+	<hibernate.connection.url>jdbc:mysql://localhost:3306/JavaProject</hibernate.connection.url>
+	<hibernate.connection.username>root</hibernate.connection.username>
+	<hibernate.connection.password>kocmoc</hibernate.connection.password>
+	<hibernate.show_sql>true</hibernate.show_sql>
+	<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+</class>
