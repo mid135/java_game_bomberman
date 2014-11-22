@@ -1,7 +1,22 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-	<p>
-        <div><input type="text" name="login"></input></div>
-        <div><input type="text" name="password"></input></div>
-        <a href='#'> Back </a>
-	</p>
+    <div>
+        <div>
+            <label>
+                Login:
+                <input id="login"></input>
+            </label>
+        </div>
+        <div>
+            <label>
+                Password:
+                <input id="password"></input>
+            </label>
+        </div>
+        <div id = "back" style="float:left">
+            <a href='#'> Back </a>
+        </div>
+        <div style="float:left">
+            <button class="login">Войти</button>
+        </div>
+    </div>
 </fest:template>

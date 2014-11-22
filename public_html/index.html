@@ -6,20 +6,7 @@
 	    <link rel="stylesheet" type="text/css" href="css/main.css" />
 	</head>
 	<body>
-		<div id="page"></div>
-		<script data-main="js/main" src="js/lib/require.js"></script>
-        <script>
-        var socket = new WebSocket("ws://localhost.com:8080/");
-        socket.onopen = function () {
-          console.log("Соединение открылось");
-        };
-        socket.onclose = function () {
-          console.log ("Соединение закрылось");
-        };
-        socket.onmessage = function (event) {
-          console.log ("Пришло сообщение с содержанием:", event.data);
-        };
-        socket.send("ololol");
-        </script>
+    <div id="page"></div>
+    <script data-main="js/main" src="js/lib/require.js"></script>
 	</body>
 </html>

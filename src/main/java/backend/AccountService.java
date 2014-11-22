@@ -10,6 +10,7 @@ import java.util.Map;
  */
 //API еще не окончательно, додумать!
 public interface AccountService {
+
     public Map<String, User> getArraySessionId();
     public Map<String, User> getUsers();
     public AccountEnum checkRegistration(String userName) ;//проверка регистрации пользователя
@@ -18,4 +19,5 @@ public interface AccountService {
     public AccountEnum logOff (HttpServletRequest request) ;//разлогинивание пользователя
     public AccountEnum register(User user);//регистрация пользователя
     public AccountEnum editProfile(User user);//изменение профиля
+    public String getNameByRequest(String sid);//имя юзера по сессии
 }

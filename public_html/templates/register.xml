@@ -1,0 +1,29 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+    <form id="register" method="POST" action="/register">
+        <div id="login">
+            <label>
+                Login:
+                <input name="login"></input>
+            </label>
+        </div>
+        <div id="password">
+            <label>
+                Password:
+                <input name="password"></input>
+            </label>
+        </div>
+        <div id="email">
+            <label>
+                Password:
+                <input name="email"></input>
+            </label>
+        </div>
+        <div id = "back" style="float:left">
+            <a href='#'> Back </a>
+        </div>
+        <div style="float:left">
+            <button type="submit">Войти</button>
+        </div>
+    </form>
+</fest:template>

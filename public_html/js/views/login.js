@@ -1,26 +1,53 @@
 define([
+    'jquery',
     'backbone',
-    'tmpl/login'
+    'tmpl/login',
+    'tmpl/register',
+    'models/user',
+
     ],
     function(
+        $,
         Backbone,
-        tmpl
+        tmplLogin,
+        tmplRegister,
+        userModel
     )
 {
     var View = Backbone.View.extend({
+        user: userModel,
+        template: tmplLogin,
+        templateLogin: tmplLogin,
+        templateRegister: tmplRegister,
 
-        template: tmpl,
+        events: {
+            "click .login": "login"
+        },
+
         initialize: function () {
+            //this.listenTo(this.user,"login_ok", this.login);
             this.render();
         },
+
         render: function () {
             this.$el.html(this.template);
+            return this;
         },
+
         show: function () {
-            // TODO
+            this.trigger('show',this);
+            this.$el.show();
         },
+
         hide: function () {
-            // TODO
+            this.$el.hide();
+        },
+
+        login: function () {
+            //alert("sdg");
+            var args = {login:$("#login").val(),password:$("#password").val()};
+            userModel.login(args);
+
         }
 
     });

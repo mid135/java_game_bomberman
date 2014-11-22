@@ -1,36 +1,53 @@
 define([
     'backbone',
+    'views/viewContainer',
     'views/main',
     'views/game',
     'views/login',
-    'views/scoreboard'
+    'views/scoreboard',
+    'models/user'
     ],
     function(
         Backbone,
-        main,
-        game,
-        login,
-        scoreboard
+        container,
+        mainView,
+        gameView,
+        loginView,
+        scoreboardView,
+        loginModel
     )
 {
+    container.register({
+                'main': mainView,
+                'login':loginView,
+                'scoreboard': scoreboardView,
+                'game': gameView
+            });
+    container.render();
     var Router = Backbone.Router.extend({
+
+
+        initialize:function() {
+
+        },
         routes: {
-            'scoreboard': 'scoreboardAction',
-            'game': 'gameAction',
-            'login': 'loginAction',
-            '*default': 'defaultActions'
+            'scoreboard': 'scoreboard',
+            'game': 'game',
+            'login': 'login',
+            '*other': 'default'
         },
-        defaultActions: function () {
-            $('#page').html(main.$el);
+        default: function () {
+            container.getView('main').show();
         },
-        scoreboardAction: function () {
-            $('#page').html(scoreboard.$el);
+        scoreboard: function () {
+            //$('#page').html(scoreboard.$el);
         },
-        gameAction: function () {
-            $('#page').html(game.$el);
+        game: function () {
+           container.getView('game').show();
         },
-        loginAction: function () {
-            $('#page').html(login.$el);
+        login: function () {
+            container.getView('login').show();
+
         }
     });
 

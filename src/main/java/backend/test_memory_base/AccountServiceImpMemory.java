@@ -23,7 +23,10 @@ public class AccountServiceImpMemory implements AccountService {
     private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/User
     private Map<String, User> users = new HashMap<>();//все зарегистрированые юзеры - логин/User
 
-
+    public AccountServiceImpMemory () {
+        User us = new User("mid","123","mail");
+        users.put("mid",us);
+    }
     @Override
     public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
 
@@ -61,7 +64,13 @@ public class AccountServiceImpMemory implements AccountService {
                 return AccountEnum.LogInFail;
             }
         } else {
-            return AccountEnum.UserLoggedIn;//TODO обдумать что делать,  если юзер уже залогинен//изменение в свзя с enum
+            if (users.get(login).getPassword().equals(password)) {
+                return AccountEnum.UserLoggedIn;
+            } else {
+                arraySessionId.remove(request.getSession().getId());//если юзер уже залогинен но птается залогиниться еще раз - выбрасываем его из системы
+                return AccountEnum.LogInFail;
+            }
+
         }
 
     }
@@ -88,5 +97,10 @@ public class AccountServiceImpMemory implements AccountService {
     @Override
     public AccountEnum editProfile(User user) {
         return AccountEnum.EditSuccess;
+    }
+
+    @Override
+    public String getNameByRequest(String sid) {
+        return arraySessionId.get(sid).getLogin();
     }
 }

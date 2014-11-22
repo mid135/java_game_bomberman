@@ -1,0 +1,4 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+    <div class="app"></div>
+    <div class="overlay"></div>
+</fest:template>

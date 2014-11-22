@@ -1,6 +1,15 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <h1>GoGo BomberMan</h1>
-    <div><p><a href='#login'> Login </a></p></div>
-    <p><a href='#scoreboard'> Scoreboard </a></p>
-    <p><a href='#game'> Game </a></p>
+    <div class="main__title">BOMBERMAN</div>
+
+
+        <fest:otherwise>
+            <div><p><a href='#game'> game </a></p></div>
+            <div><p><a href='#login'> Login </a></p></div>
+            <div><p><a href='#register'> register </a></p></div>
+        </fest:otherwise>
+
+    <div><a href="#scoreboard"></a>Scoreboard</div>
+
+
 </fest:template>

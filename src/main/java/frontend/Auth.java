@@ -2,6 +2,8 @@ package frontend;
 
 import backend.AccountService;
 import backend.enums.AccountEnum;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.simple.JSONObject;
 import templater.PageGenerator;
 import backend.User;
 import javax.servlet.ServletException;
@@ -30,9 +32,10 @@ public class Auth extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(PageGenerator.getPage(pageName, pageVariables));
     }
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("application/json;charset=utf-8");
         Map<String, Object> pageVariables = new HashMap<>();
         if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn ) {
             User user;
@@ -50,26 +53,26 @@ public class Auth extends HttpServlet {
                        HttpServletResponse response) throws ServletException, IOException {//это кнопка залогинивания на форме авторизации
 
         Map<String, Object> pageVariables = new HashMap<>();
-
+        response.setContentType("application/json;charset=utf-8");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-
+        JSONObject obj = new JSONObject();
+        response.setStatus(HttpServletResponse.SC_OK);
         if ((login == null || login.isEmpty()) && (password == null || password.isEmpty())) {
-            pageVariables.put("message","Введите пароль и логин! Пустые поля недопустимы!");
-            sendPage(response,pageVariables,"authform.html");
+            obj.put("status","fail");
+            response.getWriter().println(obj.toJSONString());
             return;
         }
-
-        if (this.pool.logIn(login,password, request) == AccountEnum.LogInSuccess ) {
+        if (this.pool.logIn(login,password, request) == AccountEnum.LogInSuccess || this.pool.logIn(login,password, request) == AccountEnum.UserLoggedIn ) {
             //успех залогинивания
-            pageVariables.put("login",pool.getUsers().get(login).getLogin());
-            pageVariables.put("password",pool.getUsers().get(login).getPassword());
-            pageVariables.put("email",pool.getUsers().get(login).getEmail());
-            pageVariables.put("message","Вход выполнен успешно");
-            sendPage(response,pageVariables,"profileUser.html");
+            obj.put("login",pool.getUsers().get(login).getLogin());
+            obj.put("password",pool.getUsers().get(login).getPassword());
+            obj.put("email",pool.getUsers().get(login).getEmail());
+            obj.put("status","success");
+            response.getWriter().println(obj.toJSONString());
         } else {
-            pageVariables.put("message","Неправильный логин и/или пароль");
-            sendPage(response,pageVariables,"authform.html");
+            obj.put("status","fail");
+            response.getWriter().println(obj);
         }
 
 
