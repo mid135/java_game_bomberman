@@ -70,6 +70,7 @@ public class AccountServiceImplSQL implements AccountService {
             return AccountEnum.UserNotRegistered;
         }
     }
+
     @Override
     public AccountEnum checkLogIn (HttpServletRequest request) {//проверка залогинен ли пользватель
         if (arraySessionId.containsKey(request.getSession().getId())) {//есть ли у данного sid юзер
@@ -78,6 +79,7 @@ public class AccountServiceImplSQL implements AccountService {
             return AccountEnum.UserNotLoggedIn;
         }
     }
+
     @Override
     public AccountEnum logIn(String login, String password,HttpServletRequest request) {//залогинивагние пользователя
         UserDataSet user = null;
@@ -95,8 +97,8 @@ public class AccountServiceImplSQL implements AccountService {
         } else {
             return AccountEnum.UserLoggedIn;//TODO обдумать что делать,  если юзер уже залогинен//изменение в свзя с enum
         }
-
     }
+
     @Override
     public AccountEnum logOff (HttpServletRequest request) {//разлогинивание пользователя
         User cur;
@@ -113,6 +115,7 @@ public class AccountServiceImplSQL implements AccountService {
             return AccountEnum.LogOffFail;
         }
     }
+
     @Override
     public AccountEnum register(User user) {//регистрация пользователя
         if (dao.readByName(user.getLogin()) != null) {
@@ -122,6 +125,7 @@ public class AccountServiceImplSQL implements AccountService {
             return AccountEnum.RegisterSuccess;
         }
     }
+
     @Override
     public AccountEnum editProfile(User user) {
         return AccountEnum.EditSuccess;
