@@ -1,0 +1,9 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+
+<canvas id="btnCanvas" width="1200" height="50">
+</canvas>
+<canvas id="myCanvas" width="1200" height="400">
+</canvas>
+
+</fest:template>
