@@ -1,22 +1,36 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <div>
-        <div>
-            <label>
-                Login:
-                <input id="login"></input>
-            </label>
-        </div>
-        <div>
-            <label>
-                Password:
-                <input id="password"></input>
-            </label>
-        </div>
-        <div id = "back" style="float:left">
-            <a href='#'> Back </a>
-        </div>
-        <div style="float:left">
-            <button class="login">Войти</button>
-        </div>
+
+<div class="wrapper">
+
+
+  <form name="login-form" class="form" data-action="/auth" method="POST">
+   
+    <div class="form__header">
+      <h1 class="form__header__h1">Login Form</h1>
+      <span class="form__header__span">Let's get started.</span>
     </div>
+
+    <div class="form__content">
+      <!--USERNAME-->
+      <div class="alert-error login-error"></div>
+      <input name="login" type="text" class="form__content__input" placeholder="Username"/>
+      
+      <!--PASSWORD-->
+      <div class="alert-error passw-error"></div>
+      <input name="passw" type="password" class="form__content__input form__content__input_password" placeholder="Password"/>
+    
+    </div>
+
+    <div class="form__footer">
+      <!--LOGIN-->
+      <input type="submit" name="submit" value="Login" class="form__footer__button" />
+      <!--BACK-->
+      <a href="#" class="form__footer__button form__footer__button_orange">Back</a>
+    </div>
+    
+  </form>
+</div>
+
+<div class="gradient"></div> 
+
 </fest:template>

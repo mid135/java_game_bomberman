@@ -1,7 +1,25 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
+    <div class="gamepage__header">
+        <div class="gamepage__header__infobar">
+        </div>
+        <a href="#" class="gamepage__menu__infobar__menu-btn">Quit</a>
+    </div>
 
+    <div class="gamepage__body">
+        <input type="button" id="gmscr" value="Играть!" name="gamebtn" />
+        <div class="gamepage__body__gameheader"> </div><!---->
+        <div class="gamepage__body__battlefield"></div>
+        <div class="gamepage__body__gamefooter">!--тут будут кнопки - анпример бонусы-->
+            <div class="gamepage__body__gamefooter__actionpanel"></div>
+            <div class="gamepage__body__gamefooter__scorespanel"></div>
+        </div>
+        Game Screen
+    </div>
 
-
-	<p><a href='#'> Back </a></p>
+    <div class="gamepage__footer">
+        <div class="gamepage__footer__controlbar-status">
+            <!--информация в футере - пока не ясно, что здесь будет-->
+        </div>
+    </div>
 </fest:template>

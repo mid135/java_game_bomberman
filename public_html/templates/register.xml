@@ -1,29 +1,43 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
-    <form id="register" method="POST" action="/register">
-        <div id="login">
-            <label>
-                Login:
-                <input name="login"></input>
-            </label>
-        </div>
-        <div id="password">
-            <label>
-                Password:
-                <input name="password"></input>
-            </label>
-        </div>
-        <div id="email">
-            <label>
-                Password:
-                <input name="email"></input>
-            </label>
-        </div>
-        <div id = "back" style="float:left">
-            <a href='#'> Back </a>
-        </div>
-        <div style="float:left">
-            <button type="submit">Войти</button>
-        </div>
-    </form>
+<div class="wrapper">
+
+  <div class="user-icon"></div>
+  <div class="pass-icon"></div>
+  <div class="pass-icon2"></div>
+    
+  <form name="register-form" class="form" data-action="/register" method="POST">
+   
+    <div class="form__header">
+      <h1 class="form__header__h1">Register Form</h1>
+      <span class="form__header__span">Let's get started.</span>
+    </div>
+
+    <div class="form__content">
+      <!--USERNAME-->
+      <div class="alert-error register-error"></div>  
+      <input name="login" type="text" class="form__content__input" placeholder="Username"/>
+      
+      <!--PASSWORD-->
+      <div class="alert-error passw-error"></div>
+      <input name="passw" type="password" class="form__content__input form__content__input_password" placeholder="Password"/>
+
+      <!--CONFIRM PASSWORD-->
+      <div class="alert-error confirm-passw-error"></div>
+      <input name="confirm_passw" type="password" class="form__content__input form__content__input_password" placeholder="Password"/>
+    
+    </div>
+
+    <div class="form__footer">
+      <!--LOGIN-->
+      <input type="submit" name="submit" value="Register" class="form__footer__button" />
+      <!--BACK-->
+       <a href="#" class="form__footer__button form__footer__button_orange">Back</a>
+    </div>
+    
+  </form>
+</div>
+
+<div class="gradient"></div> 
+
 </fest:template>

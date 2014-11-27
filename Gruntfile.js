@@ -26,14 +26,14 @@ module.exports = function (grunt) {
             options: {
                 stdout: true,
                 stderr: true
-            },
-            server: {
+            }//,
+           // server: {
                 //command: 'java -cp ./out/artifacts/server_jar/server.jar main.Main 8080'
-                command:  'java -cp ./target/L1.1-1.0-jar-with-dependencies.jar servlets.Main 8000'
+                //command:  'java -cp ./target/L1.1-1.0-jar-with-dependencies.jar servlets.Main 8000'
 //TODO что то не так со сборкой сервера в идее
                 //command: 'mvn compile assembly:single'
                 //command: 'java -cp ./out/artifacts/server_jar/server.jar servlets.Main 8000'
-            }
+            //}
         },
         fest: {
             templates: {

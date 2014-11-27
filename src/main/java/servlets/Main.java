@@ -2,15 +2,12 @@ package servlets;
 
 
 import backend.AccountService;
-import backend.mechanics.GameMechanics;
-import backend.mechanics.GameMechanicsImpl;
+
 import backend.test_memory_base.AccountServiceImpMemory;
 
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import frontend.*;
-import frontend.webSockets.WebSocketGameServlet;
-import frontend.webSockets.WebSocketService;
-import frontend.webSockets.WebSocketServiceImpl;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -29,8 +26,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //System.out.println(System.getProperty("java.class.path"));
         AccountService pool=new AccountServiceImpMemory();//глобальный пул юзеров и их сессий, сейчас из памяти все
-        WebSocketService webSocketService = new WebSocketServiceImpl();
-        GameMechanics mechanics = new GameMechanicsImpl(webSocketService);
+        //WebSocketService webSocketService = new WebSocketServiceImpl();
+        //GameMechanics mechanics = new GameMechanicsImpl(webSocketService);
 
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
@@ -49,7 +46,7 @@ public class Main {
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder(new WebSocketGameServlet(pool,mechanics,webSocketService)),"/gameplay");
+       // context.addServlet(new ServletHolder(new WebSocketGameServlet(pool,mechanics,webSocketService)),"/gameplay");
 
         server.setHandler(context);
 
