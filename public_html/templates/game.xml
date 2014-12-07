@@ -7,6 +7,7 @@
     </div>
 
     <div class="gamepage__body">
+        
         <input type="button" id="gmscr" value="Играть!" name="gamebtn" />
         <div class="gamepage__body__gameheader"> </div><!---->
         <div class="gamepage__body__battlefield"></div>

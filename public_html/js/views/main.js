@@ -20,7 +20,7 @@ define([
             this.listenTo(this.session, 'main:known', this.userIdentified);
             this.listenTo(this.session, 'successLogout', this.logoutSuccess);
             this.listenTo(this.session, 'errorLogout', this.logoutError);
-            this.render();
+            this.render(this.session.isLoggedIn);
             this.$el.hide();
         },
 

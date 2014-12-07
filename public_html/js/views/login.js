@@ -55,7 +55,7 @@ define([
 
                 this.session.postAuth(url, {
                     login: username,
-                    passw: password
+                    password: password
                 });
             }
         },

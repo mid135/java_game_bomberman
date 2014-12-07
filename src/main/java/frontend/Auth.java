@@ -4,6 +4,8 @@ import backend.AccountService;
 import backend.UserImplMemory;
 import backend.enums.AccountEnum;
 import backend.test_memory_base.User;
+import org.json.JSONException;
+import org.json.JSONObject;
 import resources.ResourceFactory;
 import templater.PageGenerator;
 
@@ -11,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.util.JAXBSource;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,49 +34,48 @@ public class Auth extends HttpServlet {
 
 
     public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("message", mapMessage == null ? "" : mapMessage.get("welcome"));
-        response.setStatus(HttpServletResponse.SC_OK);
-        if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn ) {
-            User user;
-            user = pool.getArraySessionId().get(request.getSession().getId());
-            pageVariables.put("login",pool.getUsers().get(user.getLogin()).getLogin());
-            pageVariables.put("password",pool.getUsers().get(user.getLogin()).getPassword());
-            pageVariables.put("email",pool.getUsers().get(user.getLogin()).getEmail());
-            response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
-        } else {
-            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+                      HttpServletResponse  response) throws ServletException, IOException {
+        JSONObject resp = new JSONObject();
+        try {
+            if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn) {
+                resp.put("message", "OK");
+            } else {
+                resp.put("message", "FAIL");
+            }
+        } catch (JSONException e) {
+
         }
     }
+
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//это кнопка залогинивания на форме авторизации
         response.setContentType("text/html;charset=utf-8");
-        Map<String, Object> pageVariables = new HashMap<>();
-
+        JSONObject json = new JSONObject();
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        try {
+        switch (this.pool.logIn(login,password, request) ) {
+            case LogInSuccess: {
+               json.put("status", "1");
+                break;
+            }
+            case UserLoggedIn: {
+                json.put("status", "1");
+                break;
+            }
+            case LogInFail: {
+                json.put("status", "0");
+                break;
+            }
+            default: {
+                json.put("status", "0");
+                break;
+            }
+        }} catch (JSONException e) {
 
-        if ((login == null || login.isEmpty()) && (password == null || password.isEmpty())) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
         }
-
-        if (this.pool.logIn(login,password, request) == AccountEnum.LogInSuccess ) {
-            //успех залогинивания
-            pageVariables.put("message",mapMessage.get("success"));
-
-            pageVariables.put("login",pool.getUsers().get(login).getLogin());
-            pageVariables.put("password",pool.getUsers().get(login).getPassword());
-            pageVariables.put("email",pool.getUsers().get(login).getEmail());
-            response.getWriter().println(PageGenerator.getPage("profileUser.html", pageVariables));
-        } else {
-            pageVariables.put("message",mapMessage.get("fail"));
-            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
-        }
-
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(json.toString());
 
     }
 }

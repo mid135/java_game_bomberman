@@ -38,9 +38,9 @@ public class Main {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         server.setHandler(context);
 
-        context.addServlet(new ServletHolder(auth), "/authform");
+        context.addServlet(new ServletHolder(auth), "/auth");
         context.addServlet(new ServletHolder(logoff), "/logoff");
-        context.addServlet(new ServletHolder(register),"/registration");
+        context.addServlet(new ServletHolder(register),"/register");
         context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
 
         ResourceHandler resource_handler = new ResourceHandler();

@@ -5,6 +5,8 @@ import backend.UserImplMemory;
 import backend.enums.AccountEnum;
 import backend.sql_base.dataSets.UserDataSet;
 import backend.test_memory_base.User;
+import org.json.JSONException;
+import org.json.JSONObject;
 import resources.ResourceFactory;
 import templater.PageGenerator;
 
@@ -31,30 +33,34 @@ public class Register extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
-        pageVariables.put("message",  mapMessage.get("welcome") );
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(PageGenerator.getPage("registration.html", pageVariables));
+        response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {//обработчик кнопки отлогинивания
         response.setContentType("text/html;charset=utf-8");
+        JSONObject json = new JSONObject();
         User user = new UserDataSet(request.getParameter("login"),request.getParameter("password"),
                 request.getParameter("email") == null ? "default@mail.ru": request.getParameter("email"));
        // User user = new UserImplMemory(request.getParameter("login"),request.getParameter("password"),
                // request.getParameter("email") == null ? "default@mail.ru": request.getParameter("email"));
-
-        if(pool.checkRegistration(user.getLogin()) == AccountEnum.UserRegistered ) {
-            pageVariables.put("message",mapMessage.get("userExist"));
-        } else {
-            if (pool.register(user) == AccountEnum.RegisterSuccess) {
-                pageVariables.put("message",mapMessage.get("success"));
+        try {
+            if (pool.checkRegistration(user.getLogin()) == AccountEnum.UserRegistered) {
+                json.put("status", "0");
+                json.put("message",mapMessage.get("userExist"));
             } else {
-                pageVariables.put("message",mapMessage.get("fail"));
+                if (pool.register(user) == AccountEnum.RegisterSuccess) {
+                    json.put("status", "1");
+                    json.put("message",mapMessage.get("success"));
+                } else {
+                    json.put("status", "0");
+                    json.put("message",mapMessage.get("fail"));
+                }
             }
+        } catch (JSONException e) {
+
         }
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        response.getWriter().println(json.toString());
     }
 }

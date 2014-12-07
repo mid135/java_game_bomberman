@@ -58,8 +58,8 @@ define([
 
                 this.session.postReg(url, {
                     login: username,
-                    passw: newPassw,
-                    passw2: confirmPassw
+                    password: newPassw,
+                    password2: confirmPassw
                 });
             }
         },

@@ -4,7 +4,7 @@ define([
     Backbone
 ){
     var SessionModel = Backbone.Model.extend({
-
+        isLoggedIn: "true",
         sendPost: function (url, data, eventSuccess, eventFail) {
             var self = this;
             $.ajax({
@@ -14,11 +14,14 @@ define([
                 dataType: "json"
             }).done(function(data) {
                 if (data.status == 1) {
+                this.isLoggedIn="true";
                     self.trigger(eventSuccess, data);
                 } else {
+                    this.isLoggedIn="false";
                     self.trigger(eventFail, data.message);
                 }
             }).fail(function(data) {
+                this.isLoggedIn="false";
                 self.trigger(eventFail, "Connection error, please try again later");
             });
         },
@@ -28,7 +31,7 @@ define([
         },
 
         postReg: function(url, data) {
-            this.sendPost(url, data, 'successReg', 'errorReg');
+            this.sendPost("/register", data, 'successReg', 'errorReg');
         },
 
         postChangePassword: function(url, data) {
@@ -36,15 +39,15 @@ define([
         },
 
         postLogin: function(prefix) {
-            this.sendPost("/login", {}, prefix + ":known", prefix + ":anonymous");
+            this.sendPost("/auth", {}, prefix + ":known", prefix + ":anonymous");
         },
 
         postLogout: function() {
-            this.sendPost("/logout", {}, 'successLogout', 'errorLogout');
+            this.sendPost("/auth", {}, 'successLogout', 'errorLogout');
         },
 
         isLoggedIn: function() {
-            return true;
+            return isLoggedIn;
         }
 
     });
