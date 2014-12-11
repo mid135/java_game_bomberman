@@ -54,7 +54,7 @@ public class UserDataSetDAO implements Map{
 
     @Override
     public int size() {
-        return 0;
+        return 1;
     }
 
     @Override

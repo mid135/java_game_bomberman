@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 import static org.junit.Assert.*;
 
 public class AccoutServiceMemTest {
-    private AccoutServiceImplMemory pool=new AccoutServiceImplMemory();
+    private AccoutServiceImplMemory pool = new AccoutServiceImplMemory();
     private static HttpServletRequest request;
     private static HttpSession session;
 
