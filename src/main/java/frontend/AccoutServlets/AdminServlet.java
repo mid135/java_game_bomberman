@@ -1,9 +1,8 @@
-package frontend;
+package frontend.AccoutServlets;
 
 import backend.AccountService;
 
-import resources.ResourceFactory;
-import templater.PageGenerator;
+import utils.PageGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

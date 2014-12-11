@@ -1,4 +1,4 @@
-package backend.test_memory_base;
+package backend;
 
 /**
  * Created by narek on 21.11.14.
@@ -15,4 +15,6 @@ public interface User {
     public void setPassword(String password);
 
     public void setEmail(String email);
+
+
 }

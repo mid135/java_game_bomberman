@@ -4,7 +4,20 @@ define([
     Backbone
 ){
     var SessionModel = Backbone.Model.extend({
-        isLoggedIn: "true",
+        defaults: function() {
+            this.set({
+                login: "",
+                email: "",
+                gameCount: 0,
+                gameLose: 0,
+                gameWin: 0,
+                isLoggedIn: false
+            });
+        },
+        getLogin: function() {
+            return this.login;
+        },
+
         sendPost: function (url, data, eventSuccess, eventFail) {
             var self = this;
             $.ajax({
@@ -14,10 +27,11 @@ define([
                 dataType: "json"
             }).done(function(data) {
                 if (data.status == 1) {
-                this.isLoggedIn="true";
                     self.trigger(eventSuccess, data);
+                    if (url=="auth") {
+                        self.setUser(data);
+                    }
                 } else {
-                    this.isLoggedIn="false";
                     self.trigger(eventFail, data.message);
                 }
             }).fail(function(data) {
@@ -40,6 +54,7 @@ define([
 
         postLogin: function(prefix) {
             this.sendPost("/auth", {}, prefix + ":known", prefix + ":anonymous");
+
         },
 
         postLogout: function() {
@@ -48,6 +63,10 @@ define([
 
         isLoggedIn: function() {
             return isLoggedIn;
+        },
+        setUser: function (data) {
+            this.set(data.response.user);
+            this.set('isLoggedIn', true);
         }
 
     });

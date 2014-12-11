@@ -1,6 +1,6 @@
-package backend;
+package backend.test_memory_base;
 
-import backend.test_memory_base.User;
+import backend.User;
 
 /**
  * Created by narek on 26.09.14.
@@ -38,6 +38,37 @@ public class UserImplMemory implements User {
     @Override
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    private String enemyName;
+    private int enemyScore;
+    private int myScore;
+
+    public String getEnemyName() {
+        return enemyName;
+    }
+
+    public int getMyScore() {
+        return myScore;
+    }
+
+    public int getEnemyScore() {
+        return enemyScore;
+    }
+
+    public void incrementMyScore() {
+        myScore++;
+    }
+
+    public void incrementEnemyScore() {
+        enemyScore++;
+    }
+
+    public void setEnemyName(String enemyName) {
+        this.enemyName = enemyName;
+    }
+    public String getMyName() {
+        return login;
     }
 
 }

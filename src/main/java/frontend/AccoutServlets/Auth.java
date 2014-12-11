@@ -1,21 +1,16 @@
-package frontend;
+package frontend.AccoutServlets;
 
 import backend.AccountService;
-import backend.UserImplMemory;
 import backend.enums.AccountEnum;
-import backend.test_memory_base.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import resources.ResourceFactory;
-import templater.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.util.JAXBSource;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 

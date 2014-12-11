@@ -4,7 +4,7 @@ import backend.AccountService;
 import backend.enums.AccountEnum;
 import backend.sql_base.dao.UserDataSetDAO;
 import backend.sql_base.dataSets.UserDataSet;
-import backend.test_memory_base.User;
+import backend.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -93,7 +93,7 @@ public class AccountServiceImplSQL implements AccountService {
                 return AccountEnum.LogInFail;
             }
         } else {
-            return AccountEnum.UserLoggedIn;//TODO обдумать что делать,  если юзер уже залогинен//изменение в свзя с enum
+            return AccountEnum.UserLoggedIn;
         }
 
     }

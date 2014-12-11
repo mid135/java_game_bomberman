@@ -20,14 +20,17 @@ define([
             this.listenTo(this.session, 'main:known', this.userIdentified);
             this.listenTo(this.session, 'successLogout', this.logoutSuccess);
             this.listenTo(this.session, 'errorLogout', this.logoutError);
-            this.render(this.session.isLoggedIn);
+            this.listenTo(this.session, 'successAuth', this.hideLogin);
+            this.render();
             this.$el.hide();
         },
 
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(this.template(),{bool:this.session.isLoggedIn});
         },
-
+        hideLogin: function() {
+            $(".login").css("display","none");
+        },
         show: function () {
             this.session.postLogin('main');
         },
@@ -49,6 +52,7 @@ define([
 
         logoutSuccess: function (data) {
             this.trigger('success');
+
             this.show();
         },
 

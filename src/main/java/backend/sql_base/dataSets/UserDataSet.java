@@ -1,6 +1,6 @@
 package backend.sql_base.dataSets;
 
-import backend.test_memory_base.User;
+import backend.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -71,5 +71,8 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+
 }
 

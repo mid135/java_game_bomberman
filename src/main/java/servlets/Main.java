@@ -1,6 +1,11 @@
 package servlets;
 
+import backend.mechanics.GameMechanics;
 import frontend.*;
+import frontend.AccoutServlets.AdminServlet;
+import frontend.AccoutServlets.Auth;
+import frontend.AccoutServlets.LogOff;
+import frontend.AccoutServlets.Register;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -42,6 +47,11 @@ public class Main {
         context.addServlet(new ServletHolder(logoff), "/logoff");
         context.addServlet(new ServletHolder(register),"/register");
         context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
+
+        WebSocketService webSocketService = new WebSocketService();
+        GameMechanics gameMechanics = new GameMechanics(webSocketService,pool);
+
+        context.addServlet(new ServletHolder(new WebSocketGameServlet(pool, gameMechanics, webSocketService)), "/gameplay");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

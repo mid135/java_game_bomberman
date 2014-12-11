@@ -1,7 +1,7 @@
 package backend.test_memory_base;
 
 import backend.AccountService;
-import backend.UserImplMemory;
+import backend.User;
 import backend.enums.AccountEnum;
 
 
