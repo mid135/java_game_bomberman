@@ -1,6 +1,14 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-    <h1>GoGo BomberMan</h1>
-    <div><p><a href='#login'> Login </a></p></div>
-    <p><a href='#scoreboard'> Scoreboard </a></p>
-    <p><a href='#game'> Game </a></p>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="session">
+	<div class="wrapper">
+	    <h1>GoGo BomberMan</h1>
+	    <div class="form">
+		    <div class="form__header">BOMBERMAN</div>
+		    <div class="form__content">
+			    <div class="form__content__label"><p><a href='#game'> game </a></p></div>
+			    <div class="form__content__label"><p><a href='#login'> Login </a></p></div>
+			    <div class="form__content__label"><p><a href='#register'> register </a></p></div>
+			    <div class="form__content__label"><p><a href="#scoreboard">Scoreboard</a></p></div>
+			</div>
+		</div>
+    </div>
 </fest:template>

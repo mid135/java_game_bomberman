@@ -1,29 +1,35 @@
 define([
     'backbone',
     'tmpl/game'
-    ],
-    function(
-        Backbone,
-        tmpl
-    )
-{
-    var View = Backbone.View.extend({
+], function(
+    Backbone,
+    tmpl
+){
 
+var View = Backbone.View.extend({
+        el: $('.game'),
         template: tmpl,
-        initialize: function () {
+
+        events: {
+            "click #gmscr": "gameClick"
+        },
+
+        initialize: function() {
             this.render();
+            this.$el.hide();
         },
         render: function () {
-            this.$el.html(this.template);
+            this.$el.html(this.template());
         },
         show: function () {
-            // TODO
+            this.trigger('reshow', this);
         },
-        hide: function () {
-            // TODO
+        gameClick: function(event) {
+            alert("Great shot");
         }
 
     });
+
 
     return new View();
 });
