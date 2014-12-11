@@ -17,24 +17,30 @@ public class AccountServiceImplSQLTest extends TestCase {
     private static HttpSession session;
     private AccountEnum accountEnum;
 
-    @Test
-    public void setUp() {
-        UserDataSet user = new UserDataSet("mid","123","em");
+    @Before
+    public void setUp() throws Exception{
         request = mock(HttpServletRequest.class);
         session = mock(HttpSession.class);
         when(request.getSession()).thenReturn(session);
+
+    }
+
+    @Test
+    public void testRegister() throws Exception{
+        UserDataSet user = new UserDataSet("mid","123","em");
         accountEnum = pool.register(user);
         assertEquals(AccountEnum.RegisterSuccess, accountEnum);
     }
 
     @Test
     public void testLogIn() throws Exception {
-        when(request.getParameter("login")).thenReturn("mid");
+        when(request.getParameter("login")).thenReturn("mid1");
         when(request.getParameter("password")).thenReturn("123");
         when(request.getParameter("email")).thenReturn("em");
-
-        pool.logIn("mid","123",request);
-        assertEquals("mid",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
+        UserDataSet user = new UserDataSet("mid1","123","em");
+        accountEnum = pool.register(user);
+        pool.logIn("mid1","123",request);
+        assertEquals("mid1",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
     }
 
     @Test
