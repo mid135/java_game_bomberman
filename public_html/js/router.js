@@ -18,7 +18,6 @@ define([
     profile,
     viewman,
     canvas
-    
 ){
     viewman.subscribe([main, game, login, scoreboard, register, profile, canvas])
 
@@ -32,6 +31,7 @@ define([
 
         routes: {
             '': 'index',
+            'logoff': 'logoffAction',
             'scoreboard': 'scoreboardAction',
             'game': 'gameAction',
             'login': 'loginAction',
@@ -48,6 +48,7 @@ define([
             alert('404');
         },
         scoreboardAction: function () {
+
             scoreboard.show();
         },
         gameAction: function () {
@@ -55,6 +56,11 @@ define([
         },
         loginAction: function () {
             login.show();
+        },
+        logoffAction: function() {
+            this.navigate('', {trigger: true});
+            //this.trigger('logoff');
+            main.show();
         },
         registerAction: function () {
             register.show();

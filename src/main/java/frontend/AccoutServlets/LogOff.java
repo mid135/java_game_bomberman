@@ -5,6 +5,8 @@ package frontend.AccoutServlets;
  * updated 300914 mid
  */
 import backend.AccountService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import resources.ResourceFactory;
 import utils.PageGenerator;
 import javax.servlet.ServletException;
@@ -28,10 +30,12 @@ public class LogOff extends HttpServlet {
     public void doPost(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("message", mapMessage == null ? "" : mapMessage.get("welcome"));
         pool.logOff(request);
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        JSONObject resp = new JSONObject();
+        try {
+            resp.put("status", "1");
+        } catch(JSONException e) {}
+        response.getWriter().println(resp.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

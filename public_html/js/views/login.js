@@ -36,6 +36,7 @@ define([
             this.trigger('reshow', this);
         },
 
+
         authClick: function(event) {
             event.preventDefault();
             var username = this.$("input[name=login]").val(),

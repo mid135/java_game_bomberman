@@ -1,8 +1,12 @@
 package backend;
 
 import backend.enums.AccountEnum;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -24,4 +28,5 @@ public interface AccountService {
     public AccountEnum logOff (HttpServletRequest request) ;//разлогинивание пользователя
     public AccountEnum register(User userImplMemory);//регистрация пользователя
     public AccountEnum editProfile(User userImplMemory);//изменение профиля
+    public JSONObject getScoreboard();//получение очков
 }

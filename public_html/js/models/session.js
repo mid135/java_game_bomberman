@@ -1,7 +1,8 @@
 define([
-    'backbone'
+    'backbone',
+    'user_sync'
 ], function(
-    Backbone
+    Backbone,api
 ){
     var SessionModel = Backbone.Model.extend({
         defaults: function() {
@@ -17,7 +18,9 @@ define([
         getLogin: function() {
             return this.login;
         },
-
+        events: {
+            'click .logoffButton': 'postLogout'
+        },
         sendPost: function (url, data, eventSuccess, eventFail) {
             var self = this;
             $.ajax({
@@ -26,16 +29,16 @@ define([
                 data: data,
                 dataType: "json"
             }).done(function(data) {
-                if (data.status == 1) {
+
+                if (+data.status === 1) {
+                    self.setUser(data);
                     self.trigger(eventSuccess, data);
-                    if (url=="auth") {
-                        self.setUser(data);
-                    }
-                } else {
+                }
+                else {
                     self.trigger(eventFail, data.message);
                 }
             }).fail(function(data) {
-                this.isLoggedIn="false";
+                self.isLoggedIn="false";
                 self.trigger(eventFail, "Connection error, please try again later");
             });
         },
@@ -58,14 +61,14 @@ define([
         },
 
         postLogout: function() {
-            this.sendPost("/auth", {}, 'successLogout', 'errorLogout');
+            this.sendPost("/logoff", {}, 'successLogout', 'errorLogout');
         },
 
         isLoggedIn: function() {
             return isLoggedIn;
         },
         setUser: function (data) {
-            this.set(data.response.user);
+            this.set('login',data.user);
             this.set('isLoggedIn', true);
         }
 

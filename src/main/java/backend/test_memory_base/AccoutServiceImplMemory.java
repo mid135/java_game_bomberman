@@ -3,10 +3,15 @@ package backend.test_memory_base;
 import backend.AccountService;
 import backend.User;
 import backend.enums.AccountEnum;
+import org.apache.commons.lang.ObjectUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -16,8 +21,7 @@ import java.util.Map;
  *
  */
 
-//TODO предусмотреть случаи когда
-    // от одного компа логинится сверху кто-то
+
 public class AccoutServiceImplMemory implements AccountService {
 
     private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/UserImplMemory
@@ -42,7 +46,7 @@ public class AccoutServiceImplMemory implements AccountService {
     @Override
     public AccountEnum checkLogIn (HttpServletRequest request) {//проверка залогинен ли пользватель
         if (arraySessionId.containsKey(request.getSession().getId())) {//есть ли у данного sid юзер
-            return AccountEnum.UserLoggedIn;//TODO все не может быть так просто
+            return AccountEnum.UserLoggedIn;
         } else {
             return AccountEnum.UserNotLoggedIn;
         }
@@ -50,7 +54,7 @@ public class AccoutServiceImplMemory implements AccountService {
     @Override
     public AccountEnum logIn(String login, String password,HttpServletRequest request) {//залогинивагние пользователя
         if (checkLogIn(request)==AccountEnum.UserNotLoggedIn) {
-            if ( (this.checkRegistration(login) == AccountEnum.UserRegistered) ) {// TODO эта проверка не совсем корректна
+            if ( (this.checkRegistration(login) == AccountEnum.UserRegistered) ) {
                 if (users.get(login).getPassword().equals(password)) {
                     arraySessionId.put(request.getSession().getId(), users.get(login));
                     return AccountEnum.LogInSuccess;
@@ -61,7 +65,7 @@ public class AccoutServiceImplMemory implements AccountService {
                 return AccountEnum.LogInFail;
             }
         } else {
-            return AccountEnum.UserLoggedIn;//TODO обдумать что делать,  если юзер уже залогинен//изменение в свзя с enum
+            return AccountEnum.UserLoggedIn;
         }
 
     }
@@ -93,5 +97,9 @@ public class AccoutServiceImplMemory implements AccountService {
     @Override
     public AccountEnum editProfile(User user) {
         return AccountEnum.EditSuccess;
+    }
+    @Override
+    public JSONObject getScoreboard() {
+        return null;
     }
 }

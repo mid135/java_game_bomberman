@@ -13,46 +13,53 @@ define([
         template: tmpl,
         session: sessionModel,
         events: {
-            "click .logout": "logout"
+            "click .logoffButton": "logoff"
         },
         initialize: function () {
             this.listenTo(this.session, 'main:anonymous', this.userNotIdentified);
             this.listenTo(this.session, 'main:known', this.userIdentified);
             this.listenTo(this.session, 'successLogout', this.logoutSuccess);
             this.listenTo(this.session, 'errorLogout', this.logoutError);
-            this.listenTo(this.session, 'successAuth', this.hideLogin);
+            this.listenTo(this.session, 'successAuth', this.userIdentified);
+            this.listenTo(this.session, 'change', this.render);
             this.render();
             this.$el.hide();
         },
 
         render: function () {
-            this.$el.html(this.template(),{bool:this.session.isLoggedIn});
+            this.$el.html(this.template(this.session.toJSON()));
         },
         hideLogin: function() {
-            $(".login").css("display","none");
+            $(".loginButton").hide();
         },
         show: function () {
             this.session.postLogin('main');
+            this.trigger("reshow",this);
         },
-        logout: function (event) {
+
+        logoff: function (event) {
+
             event.preventDefault();
             this.session.postLogout();
         },
         
         userIdentified: function(data) {
-            this.$(".auth, .reg").hide();
-            this.$(".to_profile, .exit").show();
+            this.$el.find(".loginButton, .registerButton").hide();
+            this.$el.find(".to_profile, .exit, .gameButton, .scoreboard").show();
+            this.$el.find(".form__header__myName").html(this.session.login);
             this.trigger('reshow', this);
+
         },
         userNotIdentified: function() {
-            this.$(".to_profile, .exit").hide();
-            this.$(".auth, .reg").show();
+            this.$el.find(".to_profile, .exit , .logoffButton").hide();
+            this.$el.find(".gameButton, .scoreboardButton").hide();
+            this.$el.find(".registerButton, .loginButton").show();
+            this.$el.find(".form__header__myName").html("anon");
             this.trigger('reshow', this);
         },
 
         logoutSuccess: function (data) {
-            this.trigger('success');
-
+            this.trigger('successLogoff');
             this.show();
         },
 

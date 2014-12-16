@@ -51,7 +51,9 @@ public class Auth extends HttpServlet {
         try {
         switch (this.pool.logIn(login,password, request) ) {
             case LogInSuccess: {
-               json.put("status", "1");
+                json.put("status", "1");
+                json.put("user",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
+                json.put("email",pool.getArraySessionId().get(request.getSession().getId()).getEmail());
                 break;
             }
             case UserLoggedIn: {

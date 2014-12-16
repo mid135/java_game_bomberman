@@ -11,10 +11,15 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import resources.ResourceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -73,7 +78,7 @@ public class AccountServiceImplSQL implements AccountService {
     @Override
     public AccountEnum checkLogIn (HttpServletRequest request) {//проверка залогинен ли пользватель
         if (arraySessionId.containsKey(request.getSession().getId())) {//есть ли у данного sid юзер
-            return AccountEnum.UserLoggedIn;//TODO все не может быть так просто
+            return AccountEnum.UserLoggedIn;
         } else {
             return AccountEnum.UserNotLoggedIn;
         }
@@ -82,7 +87,7 @@ public class AccountServiceImplSQL implements AccountService {
     public AccountEnum logIn(String login, String password,HttpServletRequest request) {//залогинивагние пользователя
         UserDataSet user = null;
         if (checkLogIn(request) == AccountEnum.UserNotLoggedIn) {
-            if ( (this.checkRegistration(login) == AccountEnum.UserRegistered) ) {// TODO эта проверка не совсем корректна
+            if ( (this.checkRegistration(login) == AccountEnum.UserRegistered) ) {
                 if ((user = dao.readByName(login)).getPassword().equals(password)) {
                     arraySessionId.put(request.getSession().getId(), user);
                     return AccountEnum.LogInSuccess;
@@ -125,5 +130,24 @@ public class AccountServiceImplSQL implements AccountService {
     @Override
     public AccountEnum editProfile(User user) {
         return AccountEnum.EditSuccess;
+    }
+
+    @Override
+    public JSONObject getScoreboard() {
+        //TODO нарек пожалуйста сделай эту функцию, я поле уже добавил.
+        //нужен limit 10 и сортировка по убыванию - чтоб максимальные очки выводить.
+        JSONArray res = new JSONArray();
+        JSONObject var = new JSONObject();
+        try {var.put("score",5);var.put("user","mid");}catch (JSONException e){}
+        JSONObject var2 = new JSONObject();
+        try {var2.put("score",3);var2.put("user","dim");}catch (JSONException e){}
+        res.put(var);
+        res.put(var2);
+        JSONObject fin = new JSONObject();
+        try {
+            fin.put("status","1");
+            fin.put("scores", res);
+        } catch(JSONException e) {}
+        return fin;
     }
 }

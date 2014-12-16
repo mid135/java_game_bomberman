@@ -15,7 +15,7 @@
 	  		</tr>
         <fest:each iterate="scores" index="i" value="score">
             <tr>
-            <td><fest:value>score.login</fest:value></td>
+            <td><fest:value>score.user</fest:value></td>
             <td align="right"><fest:value>score.score</fest:value></td>
         	</tr>
         </fest:each>
@@ -27,7 +27,7 @@
       </div>	
     </div>
 </div>
-<div class="gradient"></div> 
+
 
      
 </fest:template>

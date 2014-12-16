@@ -48,16 +48,17 @@ public class UserImplMemory implements User {
         return enemyName;
     }
 
-    public int getMyScore() {
+    public Integer getScore() {
         return myScore;
     }
+    public void setScore(Integer score) {}
 
     public int getEnemyScore() {
         return enemyScore;
     }
 
-    public void incrementMyScore() {
-        myScore++;
+    public Integer incrementMyScore() {
+        return myScore++;
     }
 
     public void incrementEnemyScore() {
@@ -70,5 +71,6 @@ public class UserImplMemory implements User {
     public String getMyName() {
         return login;
     }
+
 
 }

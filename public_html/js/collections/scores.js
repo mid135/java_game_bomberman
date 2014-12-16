@@ -1,28 +1,18 @@
 define([
-    'backbone',
-    'models/score',
-    'api/sync'
-], function(
-    Backbone,
-    ScoreModel,
-    ApiSync
-){
+  'jquery',
+  'backbone',
+  'models/score',
+  'sync_scores'
+], function($, Backbone, ScoreModel, scoreSync){
 
-    var ScoreCollection = Backbone.Collection.extend({
-        model: ScoreModel,
-        url: "/scores",
-        sync: ApiSync,
+  var ScoreCollection = Backbone.Collection.extend({
+    sync: scoreSync,
+    initialize: function () {
+        console.log(this);
+        this.fetch();
+    },
+    model: ScoreModel
+  });
 
-        parse: function (response) {
-            if (response.status == 1) {
-                this.reset(response.bestScores);
-            }
-        },
-
-        comparator: function (model) {
-            return -model.get('score');
-        }
-    });
-
-    return new ScoreCollection();
+  return new ScoreCollection();
 });

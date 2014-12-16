@@ -20,7 +20,8 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
     private String password;
     @Column(name="email")
     private String email;
-
+    @Column(name="score")
+    private Integer score;
 
     //Important to Hibernate!
     public UserDataSet(){
@@ -31,6 +32,8 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
         this.login = login;
         this.password = password;
         this.email = email;
+        this.score=0;
+
 	}
 
     public UserDataSet(long id, String login,String password, String email) {
@@ -38,6 +41,7 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
         this.login = login;
         this.password = password;
         this.email = email;
+        this.score=0;
     }
 
     public long getId() {
@@ -71,6 +75,12 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
     public void setEmail(String email) {
         this.email = email;
     }
+    @Override
+    public void setScore(Integer score) {this.score=score;}
+    @Override
+    public Integer getScore() {return  score;}
+    @Override
+    public Integer incrementMyScore() {return this.score++;}
 
 
 

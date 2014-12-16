@@ -28,12 +28,15 @@ var View = Backbone.View.extend({
         },
         render: function () {
             this.$el.html(this.template());
+
         },
         show: function () {
             this.trigger('reshow', this);
             this.initWS();
         },
-
+        hide: function () {
+           this.$el.hide();
+        },
         initWS: function() {
         var that=this;
         $('.enemyName').html(this.user.enemyName);

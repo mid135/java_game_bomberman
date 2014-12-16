@@ -2,10 +2,7 @@ package servlets;
 
 import backend.mechanics.GameMechanics;
 import frontend.*;
-import frontend.AccoutServlets.AdminServlet;
-import frontend.AccoutServlets.Auth;
-import frontend.AccoutServlets.LogOff;
-import frontend.AccoutServlets.Register;
+import frontend.AccoutServlets.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -28,6 +25,8 @@ public class Main {
         Auth auth = new Auth(pool);
         LogOff logoff = new LogOff(pool);
         Register register=new Register(pool);
+        Profile profile = new Profile(pool);
+        Scoreboard scoreboard = new Scoreboard(pool);
 
 
         /*if (args.length != 1) {
@@ -46,6 +45,8 @@ public class Main {
         context.addServlet(new ServletHolder(auth), "/auth");
         context.addServlet(new ServletHolder(logoff), "/logoff");
         context.addServlet(new ServletHolder(register),"/register");
+        context.addServlet(new ServletHolder(profile),"/profile");
+        context.addServlet(new ServletHolder(scoreboard),"/scoreboard");
         context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
 
         WebSocketService webSocketService = new WebSocketService();

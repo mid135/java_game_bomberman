@@ -14,7 +14,6 @@ var View = Backbone.View.extend({
         events: {
 
         },
-
         initialize: function () {
             this.collection.on("reset", this.render, this);
             this.render();
