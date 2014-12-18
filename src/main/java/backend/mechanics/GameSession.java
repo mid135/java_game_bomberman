@@ -2,8 +2,6 @@ package backend.mechanics;
 
 
 import backend.AccountService;
-import backend.User;
-import backend.sql_base.GameUser;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -21,13 +19,16 @@ public class GameSession {
 
     public GameSession(AccountService pool,String user1Name, String user2Name) {
         startTime = new Date().getTime();
-        GameUser user1 = new GameUser();
-        user1.setUser(pool.getUsers().get(user1Name));
-        user1.setEnemyName(user2Name);
+        Shape ball = new Shape(250,100,0);
 
-        GameUser user2 = new GameUser();
+        GameUser user1 = new GameUser(50,100,ball);
+        user1.setUser(pool.getUsers().get(user1Name));
+
+        GameUser user2 = new GameUser(300,100,ball);
         user2.setUser(pool.getUsers().get(user2Name));
-        user2.setEnemyName(user1Name);
+
+        user2.setEnemyName(user1);
+        user1.setEnemyName(user2);
 
         users.put(user1Name, user1);
         users.put(user2Name, user2);
@@ -37,7 +38,7 @@ public class GameSession {
     }
 
     public GameUser getEnemy(String user) {
-        String enemyName = users.get(user).getEnemyName();
+        String enemyName = users.get(user).getEnemy().getMyName();
         return users.get(enemyName);
     }
 
@@ -58,6 +59,7 @@ public class GameSession {
     }
 
     public  boolean isFirstWin(){
-        return first.getMyScore() > second.getMyScore();
+        //TODO сравнить координаты шара с началом и конца поля(это по сути координаты платформ). к кому ближе шар, тот и лох.
+        return true;
     }
 }

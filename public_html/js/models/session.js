@@ -5,6 +5,10 @@ define([
     Backbone,api
 ){
     var SessionModel = Backbone.Model.extend({
+        initialize: function() {
+            this.fetch();
+        },
+        sync:api,
         defaults: function() {
             this.set({
                 login: "",

@@ -22,7 +22,6 @@ define([
                 method: 'GET',
                 url: '/scoreboard',
                 success: function (resp) {
-                console.log(resp.status);
                     if (resp.status == 1) {
                         model.reset(resp.scores);
                         try {

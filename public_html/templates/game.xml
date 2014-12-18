@@ -1,5 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
+
+
     <div class="gamepage__header">
         <div class="gamepage__header__infobar">
         </div>
@@ -18,7 +20,6 @@
         <div class="gamepage__body__battlefield">
             <div class="gamepage__body__battlefield wait" id="wait">Ожидайте игрока</div>
             <div class="gamepage__body__battlefield game" id="gameplay">Игра
-                <p id="enemyName"></p>
                 <form name="gamePlay" action="">
                     <input type="button" name="submit" value="click to win!"/>
                 </form>

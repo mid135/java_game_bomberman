@@ -1,7 +1,6 @@
 package frontend;
 
-import backend.User;
-import backend.sql_base.GameUser;
+import backend.mechanics.GameUser;
 import org.json.JSONException;
 
 import java.util.HashMap;
@@ -17,12 +16,9 @@ public class WebSocketService {
         userSockets.put(user.getMyName(), user);
     }
 
-    public void notifyMyNewScore(GameUser user) throws JSONException{
-        userSockets.get(user.getMyName()).setMyScore(user);
-    }
-
-    public void notifyEnemyNewScore(GameUser user) throws JSONException{
-        userSockets.get(user.getMyName()).setEnemyScore(user);
+    public void notifyNewState(GameUser user1,GameUser user2) throws JSONException{
+        userSockets.get(user1.getMyName()).setState(user1);
+        userSockets.get(user2.getMyName()).setState(user2);
     }
 
     public void notifyStartGame(GameUser user) throws JSONException{
@@ -31,6 +27,6 @@ public class WebSocketService {
     }
 
     public void notifyGameOver(GameUser user, boolean win) {
-        userSockets.get(user.getMyName()).gameOver(user, win);
+        userSockets.get(user.getMyName()).gameOver(win);
     }
 }

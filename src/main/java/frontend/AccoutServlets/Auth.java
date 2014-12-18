@@ -33,13 +33,15 @@ public class Auth extends HttpServlet {
         JSONObject resp = new JSONObject();
         try {
             if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn) {
-                resp.put("message", "OK");
+                resp.put("status", "1");
+                resp.put("user",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
+                resp.put("email",pool.getArraySessionId().get(request.getSession().getId()).getEmail());
             } else {
-                resp.put("message", "FAIL");
+                resp.put("status", "2");
             }
-        } catch (JSONException e) {
-
-        }
+        } catch (JSONException e) { }
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(resp.toString());
     }
 
     public void doPost(HttpServletRequest request,
@@ -58,14 +60,16 @@ public class Auth extends HttpServlet {
             }
             case UserLoggedIn: {
                 json.put("status", "1");
+                json.put("user",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
+                json.put("email",pool.getArraySessionId().get(request.getSession().getId()).getEmail());
                 break;
             }
             case LogInFail: {
-                json.put("status", "0");
+                json.put("status", "2");
                 break;
             }
             default: {
-                json.put("status", "0");
+                json.put("status", "2");
                 break;
             }
         }} catch (JSONException e) {

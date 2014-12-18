@@ -7,8 +7,6 @@ package backend.mechanics;
 
 
 import backend.AccountService;
-import backend.User;
-import backend.sql_base.GameUser;
 import frontend.WebSocketService;
 import org.json.JSONException;
 import utils.TimeHelper;
@@ -20,9 +18,11 @@ import java.util.Set;
 
 
 public class GameMechanics {
-    private static final int STEP_TIME = 100;
+    private static final int STEP_TIME = 5000;
 
-    private static final int gameTime = 15 * 1000;
+    private static final int gameTime = 150 * 1000;
+
+    private static final int speed_inc = 1;//TODO cкорость постепенно увеличивается
 
     private WebSocketService webSocketService;
 
@@ -47,14 +47,21 @@ public class GameMechanics {
         }
     }
 
-    public void incrementScore(String userName) throws JSONException{
+    public void changePosition(String userName,Integer delta) throws JSONException{
         GameSession myGameSession = nameToGame.get(userName);
+
         GameUser myUser = myGameSession.getSelf(userName);
-        myUser.incrementMyScore();
-        GameUser enemyUser = myGameSession.getEnemy(userName);
-        enemyUser.incrementEnemyScore();
-        webSocketService.notifyMyNewScore(myUser);
-        webSocketService.notifyEnemyNewScore(enemyUser);
+        myUser.getPlatform().setX(myUser.getPlatform().getX()+delta);
+
+        if (myUser.getBall().getX()==0) {
+            webSocketService.notifyGameOver(myGameSession.getFirst(), true);
+            webSocketService.notifyGameOver(myGameSession.getSecond(), false);
+        } else if(myUser.getEnemy().getBall().getX()==500) {
+            webSocketService.notifyGameOver(myGameSession.getFirst(), false);
+            webSocketService.notifyGameOver(myGameSession.getSecond(), true);
+        }
+        webSocketService.notifyNewState(myUser,myUser.getEnemy());
+
     }
 
 
@@ -67,6 +74,8 @@ public class GameMechanics {
 
     private void gmStep() {
         for (GameSession session : allSessions) {
+            GameUser myUser = session.getFirst();
+            myUser.getBall().setX(session.getFirst().getBall().getX()+10);
             if (session.getSessionTime() > gameTime) {
                 boolean firstWin = session.isFirstWin();
                 webSocketService.notifyGameOver(session.getFirst(), firstWin);
@@ -85,6 +94,9 @@ public class GameMechanics {
 
         webSocketService.notifyStartGame(gameSession.getSelf(first));
         webSocketService.notifyStartGame(gameSession.getSelf(second));
+
+        webSocketService.notifyNewState(gameSession.getSelf(first),gameSession.getSelf(second));
+       // webSocketService.notifyNewState(gameSession.getSelf(second),gameSession.getSelf(first));
     }
 }
 

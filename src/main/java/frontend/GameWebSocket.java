@@ -1,16 +1,20 @@
 package frontend;
 
 
-import backend.User;
 import backend.mechanics.GameMechanics;
-import backend.sql_base.GameUser;
+import backend.mechanics.GameUser;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 
 
 @WebSocket
@@ -34,27 +38,34 @@ public class GameWebSocket {
         try {
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "start");
-            jsonStart.put("enemyName", user.getEnemyName());
+            jsonStart.put("enemyName", user.getEnemy().getMyName());
             session.getRemote().sendString(jsonStart.toString());
         } catch (Exception e) {
             System.out.print(e.toString());
         }
     }
 
-    public void gameOver(GameUser user, boolean win) {
+    public void gameOver(boolean win) {
         try {
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "finish");
             jsonStart.put("win", win);
             session.getRemote().sendString(jsonStart.toString());
         } catch (Exception e) {
-            System.out.print(e.toString());
+            //System.out.print(e.toString());
         }
     }
 
     @OnWebSocketMessage
     public void onMessage(String data) throws JSONException{
-        gameMechanics.incrementScore(myName);
+        JSONObject inputJSON = new JSONObject();
+        JSONParser parser = new JSONParser();
+        try {
+            inputJSON = (JSONObject)parser.parse(data.toString());
+
+        } catch (ParseException e) {
+        }
+        gameMechanics.changePosition(myName,Integer.valueOf(inputJSON.get("delta").toString()));
     }
 
     @OnWebSocketConnect
@@ -64,25 +75,14 @@ public class GameWebSocket {
         gameMechanics.addUser(myName);
     }
 
-    public void setMyScore(GameUser user) throws JSONException{
-        JSONObject jsonStart = new JSONObject();
-        jsonStart.put("status", "increment");
-        jsonStart.put("name", myName);
-        jsonStart.put("score", user.getMyScore());
+    public void setState(GameUser user) throws JSONException{
+        JSONObject myJson = new JSONObject();
+        myJson.put("status", "game");
+        myJson.put("myState", user.getState());
+        myJson.put("enemyState", user.getEnemy().getState());
+        myJson.put("ballState",user.getBall().getState());
         try {
-            session.getRemote().sendString(jsonStart.toString());
-        } catch (Exception e) {
-            System.out.print(e.toString());
-        }
-    }
-
-    public void setEnemyScore(GameUser user) throws JSONException{
-        JSONObject jsonStart = new JSONObject();
-        jsonStart.put("status", "increment");
-        jsonStart.put("name", user.getEnemyName());
-        jsonStart.put("score", user.getEnemyScore());
-        try {
-            session.getRemote().sendString(jsonStart.toString());
+            session.getRemote().sendString(myJson.toString());
         } catch (Exception e) {
             System.out.print(e.toString());
         }
@@ -98,6 +98,6 @@ public class GameWebSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-
+        //TODO а тут что делать? - перейти на нужную вьюху!!!
     }
 }

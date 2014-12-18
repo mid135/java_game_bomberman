@@ -4,7 +4,7 @@ define([
     'api'
 ], function($, Backbone, API) {
 
-    var api = new API('/api/v1/auth/');
+    var api = new API('/auth');
 
 	return function(method, model, options) {
 
@@ -15,14 +15,15 @@ define([
         var methodMap = {
             'create': {
                 send: function () {
-                    return api.send('POST', 'signup', model.toJSON()).done(this.success).fail(this.error);
+                    return api.send('POST', '', model.toJSON()).done(this.success).fail(this.error);
                 },
                 success: function (resp) {
-                    if (resp.status == 200) {
+                resp=JSON.parse(resp);
+                    if (resp.status == 1) {
                         model.clear();
                         model.trigger('signup:ok');
                     }
-                    else if (resp.status == 500) {
+                    else if (resp.status == 2) {
                         model.trigger('signup:bad', resp.message);
                     }
                 },
@@ -32,10 +33,14 @@ define([
             },
             'read': {
                 send: function () {
-                    api.send('GET', 'profile', model.toJSON()).done(this.success).fail(this.error);
+                    console.log("its on");
+
+                    api.send('GET', '', model.toJSON()).done(this.success).fail(this.error);
                 },
                 success: function (resp) {
-                    if (resp.status === 200) {
+                    console.log("omg");
+                    debugger;
+                    if (resp.status === 1) {
                         model.set({
                             'login': resp.login,
                             'email': resp.email,
@@ -43,6 +48,9 @@ define([
                         });
                         model.trigger('login:ok');
                     }
+                },
+                error: function() {
+                    console.log("wtf");
                 }
             },
             'update': {
