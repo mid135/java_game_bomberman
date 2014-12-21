@@ -16,11 +16,4 @@ public interface User {
 
     public void setEmail(String email);
 
-    public void setScore(Integer score);
-
-    public Integer getScore();
-
-    public Integer incrementMyScore();//by one
-
-
 }

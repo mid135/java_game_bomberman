@@ -2,7 +2,9 @@ package backend.sql_base;
 
 import backend.AccountService;
 import backend.enums.AccountEnum;
+import backend.sql_base.dao.ScorboardDataSetDao;
 import backend.sql_base.dao.UserDataSetDAO;
+import backend.sql_base.dataSets.ScorboardDataSet;
 import backend.sql_base.dataSets.UserDataSet;
 import backend.User;
 import org.hibernate.Session;
@@ -17,10 +19,7 @@ import org.json.JSONObject;
 import resources.ResourceFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by mid on 23.10.14.
@@ -30,23 +29,30 @@ import java.util.Map;
 public class AccountServiceImplSQL implements AccountService {
     private Map<String, User> arraySessionId = new HashMap<>();//все сессии пользователей - sessionId/UserImplMemory
     private Map<String, String> propertyForConfiguration = null;
-    private UserDataSetDAO dao;
-    private Configuration configuration;
-    private SessionFactory sessionFactory;
+    private UserDataSetDAO daoUser;
+    private ScorboardDataSetDao daoScorboard;
+    private Configuration configurationUser;
+    private Configuration configurationScorboard;
+    private SessionFactory sessionFactoryUser;
+    private SessionFactory sessionFactoryScoreboard;
 
     public AccountServiceImplSQL() {
         propertyForConfiguration = ResourceFactory.instance().getResource("./data/propertyForConfiguration.xml"); //настройки работы класса Configuration
-        configuration = new Configuration();
-        configuration.addAnnotatedClass(UserDataSet.class);
+        configurationUser = new Configuration();
+        configurationScorboard = new Configuration();
+        configurationUser.addAnnotatedClass(UserDataSet.class);
+        configurationScorboard.addAnnotatedClass(ScorboardDataSet.class);
 
-        sessionFactory = createSessionFactory(configuration);
-
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        sessionFactoryUser = createSessionFactory(configurationUser);
+        sessionFactoryScoreboard = createSessionFactory(configurationScorboard);
+        //Session session = sessionFactory.openSession();
+        //Transaction transaction = session.beginTransaction();
         //System.out.append(transaction.getLocalStatus().toString()).append('\n');
-        session.close();
+        //session.close();
 
-        dao = new UserDataSetDAO(sessionFactory);
+        daoUser = new UserDataSetDAO(sessionFactoryUser);
+        daoScorboard = new ScorboardDataSetDao(sessionFactoryScoreboard);
+        //daoScorboard.save(new ScorboardDataSet(2,"Max", 5));
     }
 
     public SessionFactory createSessionFactory(Configuration configuration) {
@@ -64,12 +70,12 @@ public class AccountServiceImplSQL implements AccountService {
     public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
 
     @Override
-    public Map getUsers() {return dao;};
+    public Map getUsers() {return daoUser;}
 
     @Override
     public synchronized AccountEnum checkRegistration(String userName) {//проверка регистрации пользователя
 
-        if (dao.readByName(userName) != null) {
+        if (daoUser.readByName(userName) != null) {
             return AccountEnum.UserRegistered;
         } else  {
             return AccountEnum.UserNotRegistered;
@@ -88,7 +94,7 @@ public class AccountServiceImplSQL implements AccountService {
         UserDataSet user = null;
         if (checkLogIn(request) == AccountEnum.UserNotLoggedIn) {
             if ( (this.checkRegistration(login) == AccountEnum.UserRegistered) ) {
-                if ((user = dao.readByName(login)).getPassword().equals(password)) {
+                if ((user = daoUser.readByName(login)).getPassword().equals(password)) {
                     arraySessionId.put(request.getSession().getId(), user);
                     return AccountEnum.LogInSuccess;
                 } else {
@@ -120,10 +126,10 @@ public class AccountServiceImplSQL implements AccountService {
     }
     @Override
     public AccountEnum register(User user) {//регистрация пользователя
-        if (dao.readByName(user.getLogin()) != null) {
+        if (daoUser.readByName(user.getLogin()) != null) {
             return AccountEnum.UserAlreadyExists;
         } else {
-            dao.save((UserDataSet)user);
+            daoUser.save((UserDataSet)user);
             return AccountEnum.RegisterSuccess;
         }
     }
@@ -136,18 +142,30 @@ public class AccountServiceImplSQL implements AccountService {
     public JSONObject getScoreboard() {
         //TODO нарек пожалуйста сделай эту функцию, я поле уже добавил.
         //нужен limit 10 и сортировка по убыванию - чтоб максимальные очки выводить.
+
         JSONArray res = new JSONArray();
-        JSONObject var = new JSONObject();
-        try {var.put("score",5);var.put("user","mid");}catch (JSONException e){}
-        JSONObject var2 = new JSONObject();
-        try {var2.put("score",3);var2.put("user","dim");}catch (JSONException e){}
-        res.put(var);
-        res.put(var2);
+
+        try {
+            List<ScorboardDataSet> scorboards = daoScorboard.readTop10();
+            for (ScorboardDataSet scorboard : scorboards) {
+                try {
+                    JSONObject var = new JSONObject();
+                    var.put( "score", scorboard.getScore() );
+                    var.put( "user", scorboard.getUserName() );
+                    res.put(var);
+                } catch (JSONException e) {
+                }
+            }
+        }catch (Exception e){
+
+        }
+
         JSONObject fin = new JSONObject();
         try {
-            fin.put("status","1");
+            fin.put("status", "1");
             fin.put("scores", res);
-        } catch(JSONException e) {}
+        } catch (JSONException e) {
+        }
         return fin;
     }
 }
