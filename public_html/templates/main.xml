@@ -3,7 +3,7 @@
 	    <h1>GoGo BomberMan</h1>
 	    <div class="form">
 		    <div class="form__header">
-                <p>Game</p>
+                <p>Hello</p>
                 <div class="form__header__myName"></div>
 
 		    </div>
@@ -12,7 +12,6 @@
                 <div class="form__content__label loginButton"><p><a href='#login'> Login </a></p></div>
 			    <div class="form__content__label registerButton"><p><a href='#register'> register </a></p></div>
 			    <div class="form__content__label scoreboardButton"><p><a href="#scoreboard">Scoreboard</a></p></div>
-
                 <div class="form__content__label logoffButton"><p><a href='#logoff'> Logoff </a></p></div>
 
 			</div>

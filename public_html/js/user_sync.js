@@ -1,29 +1,17 @@
 define([
-    'jquery',
-	'backbone',
-    'api'
-], function($, Backbone, API) {
-
-    var api = new API('/');
-
+	'backbone'
+], function(Backbone) {
 	return function(method, model, options) {
-
-        if ((method === 'create') && !((model.has('email')) && (model.has('password')))) {
-            method = 'update'
-        }
-
         var methodMap = {
             'create': {
-                send: function () {
-                    return api.send('POST', 'auth', model.toJSON()).done(this.success).fail(this.error);
-                },
+                method: 'POST',
+                url: "/auth",
                 success: function (resp) {
-                resp=JSON.parse(resp);
-                    if (resp.status == 1) {
+                    if (resp.status == 200) {
                         model.clear();
                         model.trigger('signup:ok');
                     }
-                    else if (resp.status == 2) {
+                    else if (resp.status == 500) {
                         model.trigger('signup:bad', resp.message);
                     }
                 },
@@ -32,35 +20,25 @@ define([
                 }
             },
             'read': {
-                send: function () {
-                    console.log("its on");
-                    api.send('GET', 'auth', model.toJSON()).done(this.success).fail(this.error);
-                },
+                method: 'GET',
+                url: "/auth",
                 success: function (resp) {
-                    console.log("omg");
-                    debugger;
-                    if (resp.status === 1) {
+                    if (resp.status == 1) {
+                    model.login=resp.user;
                         model.set({
-                            'login': resp.login,
+                            login: resp.user,
                             'email': resp.email,
-                            'isLogined': true
+                            'isLoggedIn': true
                         });
-                        model.trigger('login:ok');
+                        model.trigger('main:known');
+                    } else {
+                        model.trigger('main:anonymous');
                     }
-                },
-                error: function() {
-                    console.log("wtf");
                 }
             },
             'update': {
-                send: function () {
-                    if (model.has('password')) {
-                        api.send('POST', 'signin', model.toJSON()).done(this.success).fail(this.error);
-                    }
-                    else {
-                        api.send('POST', 'logout', model.toJSON()).done(this.success).fail(this.error);
-                    }
-                },
+                method: 'POST',
+                url: model.has('password') ? model.loginUrl : model.logoutUrl,
                 success: function (resp) {
                     if (model.has('password')) {
                         if (resp.status === 200) {
@@ -69,6 +47,7 @@ define([
                                 'email': resp.email,
                                 'isLogined': true
                             });
+                            debugger;
                             model.unset('password');
                             model.trigger('login:ok');
                         }
@@ -84,7 +63,6 @@ define([
                 error: function () {
                     if (model.has('password')) {
                         model.trigger('login:error');
-                        model.unset('password')
                     }
                     else {
                         model.trigger('logout:error');
@@ -92,6 +70,19 @@ define([
                 }
             }
         };
-        return methodMap[method].send();
+        var type = methodMap[method].method,
+	            url = methodMap[method].url,
+	            success = methodMap[method].success,
+	            error = methodMap[method].error;
+
+        var xhr = $.ajax({
+            type: type,
+            url: url,
+            data: (model instanceof Backbone.Model) ? model.toJSON() : {},
+            success: success,
+            error: error,
+            dataType: 'json'
+        });
 	};
 });
+	

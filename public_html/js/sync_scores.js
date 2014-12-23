@@ -25,7 +25,7 @@ define([
                     if (resp.status == 1) {
                         model.reset(resp.scores);
                         try {
-                            console.log(JSON.stringify(resp.scores));
+                            //console.log(JSON.stringify(resp.scores));
                             localStorage['scores'] = JSON.stringify(resp).scores;
                         }
                         catch (e) {
