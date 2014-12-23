@@ -1,8 +1,10 @@
 package servlets;
 
 import backend.mechanics.GameMechanics;
-import frontend.*;
+
 import frontend.AccoutServlets.*;
+import frontend.WebSocketGameServlet;
+import frontend.WebSocketService;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
