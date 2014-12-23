@@ -4,7 +4,7 @@ define([
     'api'
 ], function($, Backbone, API) {
 
-    var api = new API('/auth');
+    var api = new API('/');
 
 	return function(method, model, options) {
 
@@ -15,7 +15,7 @@ define([
         var methodMap = {
             'create': {
                 send: function () {
-                    return api.send('POST', '', model.toJSON()).done(this.success).fail(this.error);
+                    return api.send('POST', 'auth', model.toJSON()).done(this.success).fail(this.error);
                 },
                 success: function (resp) {
                 resp=JSON.parse(resp);
@@ -34,8 +34,7 @@ define([
             'read': {
                 send: function () {
                     console.log("its on");
-
-                    api.send('GET', '', model.toJSON()).done(this.success).fail(this.error);
+                    api.send('GET', 'auth', model.toJSON()).done(this.success).fail(this.error);
                 },
                 success: function (resp) {
                     console.log("omg");

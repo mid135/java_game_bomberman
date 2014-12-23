@@ -33,11 +33,11 @@ public class Auth extends HttpServlet {
         JSONObject resp = new JSONObject();
         try {
             if (pool.checkLogIn(request) == AccountEnum.UserLoggedIn) {
-                resp.put("status", "1");
+                resp.put("status", "100");
                 resp.put("user",pool.getArraySessionId().get(request.getSession().getId()).getLogin());
                 resp.put("email",pool.getArraySessionId().get(request.getSession().getId()).getEmail());
             } else {
-                resp.put("status", "2");
+                resp.put("status", "200");
             }
         } catch (JSONException e) { }
         response.setStatus(HttpServletResponse.SC_OK);
