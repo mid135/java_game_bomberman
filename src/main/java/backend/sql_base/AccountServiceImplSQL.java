@@ -65,6 +65,11 @@ public class AccountServiceImplSQL implements AccountService {
     }
 
     @Override
+    public void saveScore (long userId, String userName, int score) {
+        daoScorboard.save(new ScorboardDataSet(userId,userName, score));
+    }
+
+    @Override
     public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
 
     @Override

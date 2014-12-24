@@ -29,4 +29,5 @@ public interface AccountService {
     public AccountEnum register(User userImplMemory);//регистрация пользователя
     public AccountEnum editProfile(User userImplMemory);//изменение профиля
     public JSONObject getScoreboard();//получение очков
+    public void saveScore(long userId, String userName, int score);
 }

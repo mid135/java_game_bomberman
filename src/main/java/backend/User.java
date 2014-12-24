@@ -10,6 +10,8 @@ public interface User {
 
     public String getEmail();
 
+    public long getId();
+
     public void setLogin(String login);
 
     public void setPassword(String password);

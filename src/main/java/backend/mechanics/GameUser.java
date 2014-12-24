@@ -62,6 +62,9 @@ public class GameUser {
         return resp;
     }
 
+    public User getUser() {
+        return user;
+    }
 
     public String getMyName() {
         return name;

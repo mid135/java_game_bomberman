@@ -108,7 +108,7 @@ public class GameMechanics {
 
                 } else {
                     if (indikateChangeScore && !finishGame) {
-                        myUser.increment();
+                        myUser.getEnemy().increment();
                         indikateChangeScore = false;
                     }
                     session.getFirst().getBall().setVy(session.getFirst().getBall().getVy()*(-1));
@@ -118,7 +118,7 @@ public class GameMechanics {
 
             } else {
                 if (indikateChangeScore && !finishGame) {
-                    myUser.getEnemy().increment();
+                    myUser.increment();
                     indikateChangeScore = false;
                 }
                 session.getFirst().getBall().setVy(session.getFirst().getBall().getVy()*(-1));
@@ -129,7 +129,8 @@ public class GameMechanics {
 
             if (session.getSessionTime() > gameTime) {
                 if (!finishGame) {
-                    
+                    pool.saveScore(session.getFirst().getUser().getId(), session.getFirst().getMyName(), session.getFirst().getScore());
+                    pool.saveScore(session.getSecond().getUser().getId(), session.getSecond().getMyName(), session.getSecond().getScore());
                 }
                 finishGame = true;
                 webSocketService.notifyGameOver(session.getFirst());

@@ -102,4 +102,8 @@ public class AccoutServiceImplMemory implements AccountService {
     public JSONObject getScoreboard() {
         return null;
     }
+    @Override
+    public void saveScore(long userId, String userName, int score) {
+
+    }
 }

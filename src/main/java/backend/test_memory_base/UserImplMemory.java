@@ -39,6 +39,10 @@ public class UserImplMemory implements User {
     public void setEmail(String email) {
         this.email = email;
     }
+    @Override
+    public long getId() {
+        return -1;
+    }
 
     private String enemyName;
     private int enemyScore;
