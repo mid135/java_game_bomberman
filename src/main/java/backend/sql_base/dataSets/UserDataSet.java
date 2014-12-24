@@ -22,6 +22,7 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
     private String email;
 
 
+
     //Important to Hibernate!
     public UserDataSet(){
     }

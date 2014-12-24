@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 public class GameUser {
     private String name;
     private GameUser enemy;
-
+    private Shape ball;
+    private Shape platform;
     private User user;
 
     public GameUser(int x,int y,Shape b) {
@@ -26,8 +27,7 @@ public class GameUser {
 
     public Shape getPlatform() {        return platform;    }
 
-    private Shape ball;
-    private Shape platform;
+
 
     public void setUser(User nam) {
         this.name=nam.getLogin();

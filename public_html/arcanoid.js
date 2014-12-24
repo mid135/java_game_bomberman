@@ -17,8 +17,8 @@ var game_js = {
 	connection:null,
 	canvas_params:{
 		scene_color:"white",
-		width:'500px',
-		height: '200px'
+		width:'800px',
+		height: '600px'
 	},
     init:function(canvas){
         //îáúÿâëÿåì êàíâàñ
@@ -31,14 +31,14 @@ var game_js = {
 	        height:game_js.canvas_params.height
 	    });
 
-		for(var i=0;i<game_js.count_players;i++){
+		for(var i=0; i<game_js.count_players; i++){
 			
 			game_js.rect_params.push({
 				name:i,
 				cur_x:null,
 				cur_y:null,
-				width:10,
-				height:10
+				width:50,
+				height:5
 			});
 		}
 		console.log(game_js.rect_params);
@@ -68,7 +68,7 @@ var game_js = {
     },
 	//ïàðàìåòðû îáúåêòîâ
     ball_params:{
-        radius:10
+        radius:5
     },
     rect_params:[],	
 	//êîîðäèíàòû ìûøêè

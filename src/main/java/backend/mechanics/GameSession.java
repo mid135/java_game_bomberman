@@ -19,12 +19,12 @@ public class GameSession {
 
     public GameSession(AccountService pool,String user1Name, String user2Name) {
         startTime = new Date().getTime();
-        Shape ball = new Shape(250,100,0);
+        Shape ball = new Shape(250,50,0);
 
-        GameUser user1 = new GameUser(50,100,ball);
+        GameUser user1 = new GameUser(50,150,ball);
         user1.setUser(pool.getUsers().get(user1Name));
 
-        GameUser user2 = new GameUser(300,100,ball);
+        GameUser user2 = new GameUser(200,50,ball);
         user2.setUser(pool.getUsers().get(user2Name));
 
         user2.setEnemyName(user1);

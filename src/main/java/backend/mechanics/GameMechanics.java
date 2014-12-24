@@ -24,6 +24,8 @@ public class GameMechanics {
 
     private static final int speed_inc = 1;//TODO cкорость постепенно увеличивается
 
+    private static final double acseleration = 9.8;
+
     private WebSocketService webSocketService;
 
     private Map<String, GameSession> nameToGame = new HashMap<>();
