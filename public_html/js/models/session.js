@@ -9,14 +9,15 @@ define([
             this.fetch();
         },
         sync:api,
+        login: "",
         defaults: function() {
             this.set({
-                login: "",
+                login: "lel",
                 email: "",
                 gameCount: 0,
                 gameLose: 0,
                 gameWin: 0,
-                isLoggedIn: false
+                'isLoggedIn': false
             });
         },
         getLogin: function() {
@@ -47,6 +48,10 @@ define([
             });
         },
 
+        userAuthorised: function() {
+        debugger;
+            this.trigger('successAuth');
+        },
         postAuth: function(url, data) {
             this.sendPost(url, data, 'successAuth', 'errorAuth');
         },

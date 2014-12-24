@@ -10,7 +10,6 @@
 
     <div class="gamepage__body">
         
-        <input type="button" id="gmscr" value="Играть!" name="gamebtn" />
         <div class="gamepage__body__gameheader">
             <div class="gamepage__body__gameheader myName"></div>
             <div class="gamepage__body__gameheader myScore"></div>
@@ -19,22 +18,20 @@
         </div><!---->
         <div class="gamepage__body__battlefield">
             <div class="gamepage__body__battlefield wait" id="wait">Ожидайте игрока</div>
-            <div class="gamepage__body__battlefield game" id="gameplay">Игра
-                <form name="gamePlay" action="">
-                    <input type="button" name="submit" value="click to win!"/>
-                </form>
+            <div class="gamepage__body__battlefield gameplay" id="gameplay">Игра
+
+
             </div>
             <div class="gamepage__body__battlefield over" id="gameOver">Игра окончена
                 <p id="win"></p>
             </div>
         </div>
-        <div class="gamepage__body__gamefooter">!--тут будут кнопки - анпример бонусы-->
+        <div class="gamepage__body__gamefooter">
 
             <div class="gamepage__body__gamefooter__actionpanel"></div>
             <div class="gamepage__body__gamefooter__scorespanel"></div>
         </div>
 
-        Game Screen
     </div>
 
     <div class="gamepage__footer">

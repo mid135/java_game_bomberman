@@ -1,13 +1,13 @@
 define([
     'backbone',
     'tmpl/game',
-    'models/session'//,
-   // 'models/game'
+    'models/session',
+    'models/game'
 ], function(
     Backbone,
     tmpl,
-    session//,
-   // game
+    session,
+    game
 ){
 
 var View = Backbone.View.extend({
@@ -40,6 +40,8 @@ var View = Backbone.View.extend({
 
         },
         show: function () {
+            this.$el.find('.gameplay').hide();
+            this.$el.find('.over').hide();
             this.trigger('reshow', this);
         },
         hide: function () {
@@ -92,18 +94,14 @@ var View = Backbone.View.extend({
             return true;
         },
         draw_shape:function(shape,a){
-            //â shape íóæíî ïåðåäàâàòü {name:"ïðÿìîóãîëüíèê/êðóã",...(ïàðàìåòðû)}
             context = game_js.context;
             if (shape.x === null||shape.y === null||!shape.name){
                         console.log("no info!");
                         console.log(shape);
                         console.log("---");
-                        return;
-            }
-            //console.log(shape);
+                        return;            }
             var self = game_js,
             draw = {
-                //ðàñøèðÿåìàÿ ñòðóêòóðà :) íàñêîëüêî ýòî âîçìîæíî
                 rect:function(){
                     var w = shape.width||self.rect_params[a].width,
                     h = shape.height||self.rect_params[a].height;

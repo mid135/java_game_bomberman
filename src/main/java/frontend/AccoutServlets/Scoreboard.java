@@ -39,7 +39,6 @@ public class Scoreboard extends HttpServlet {
                 return;
             }
             //jsonObj.put("status", "1");
-
             jsonObj= pool.getScoreboard();
         } catch(Exception e){}
         response.getWriter().print(jsonObj.toString());

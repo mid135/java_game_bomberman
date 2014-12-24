@@ -23,6 +23,7 @@ define([
             this.listenTo(this.session, 'successAuth', this.userIdentified);
             this.listenTo(this.session, 'change', this.render);
             this.render();
+
             this.$el.hide();
         },
 
@@ -33,7 +34,8 @@ define([
             $(".loginButton").hide();
         },
         show: function () {
-            this.session.postLogin('main');
+            this.session.fetch();
+            //this.session.postLogin('main');
             this.trigger("reshow",this);
         },
 
@@ -54,7 +56,7 @@ define([
             this.$el.find(".to_profile, .exit , .logoffButton").hide();
             this.$el.find(".gameButton, .scoreboardButton").hide();
             this.$el.find(".registerButton, .loginButton").show();
-            this.$el.find(".form__header__myName").html("anon");
+            this.$el.find(".form__header__myName").html("anonymus");
             this.trigger('reshow', this);
         },
 
