@@ -18,10 +18,12 @@ public class GameUser {
     private Shape ball;
     private Shape platform;
     private User user;
+    private int score;
 
     public GameUser(int x,int y,Shape b) {
-        this.platform = new Shape(x,y,0);
+        this.platform = new Shape(x,y, 0, 0);
         this.ball = b;
+        this.score = 0;
     }
     public Shape getBall() {        return ball;    }
 
@@ -32,7 +34,15 @@ public class GameUser {
     public void setUser(User nam) {
         this.name=nam.getLogin();
         this.user = nam;
-}
+    }
+
+    public void increment() {
+        this.score = score + 1;
+    }
+
+    public int getScore() {
+        return score;
+    }
 
     public GameUser getEnemy() {
         return enemy;

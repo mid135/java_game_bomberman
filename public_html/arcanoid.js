@@ -17,7 +17,7 @@ var game_js = {
 	connection:null,
 	canvas_params:{
 		scene_color:"white",
-		width:'800px',
+		width:'1000px',
 		height: '600px'
 	},
     init:function(canvas){
@@ -150,6 +150,12 @@ var game_js = {
 	},
 	finish_scene:function(json){
 		game_js.start_game = false;
+		game_js.clean_scene();
+		context.textAlign = "center";
+        context.fillText(json.myName, 100, 75);
+        context.fillText(json.myScore, 100, 90);
+        context.fillText(json.oponentName, 150, 75);
+        context.fillText(json.oponentScore, 150, 90);
 		return true;
 	},	
 	//ïðèíÿòèå json è åãî îáðàáîòêà

@@ -26,7 +26,7 @@ public class WebSocketService {
         gameWebSocket.startGame(user);
     }
 
-    public void notifyGameOver(GameUser user, boolean win) {
-        userSockets.get(user.getMyName()).gameOver(win);
+    public void notifyGameOver(GameUser user) {
+        userSockets.get(user.getMyName()).gameOver( user.getMyName(), user.getScore(), user.getEnemy().getMyName(), user.getEnemy().getScore());
     }
 }

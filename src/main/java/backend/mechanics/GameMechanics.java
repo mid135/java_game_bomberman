@@ -11,20 +11,19 @@ import frontend.WebSocketService;
 import org.json.JSONException;
 import utils.TimeHelper;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class GameMechanics {
-    private static final int STEP_TIME = 5000;
+    private static final int STEP_TIME = 50;
 
-    private static final int gameTime = 150 * 1000;
+    private static final int gameTime = 30 * 1000;
 
     private static final int speed_inc = 1;//TODO cкорость постепенно увеличивается
 
-    private static final double acseleration = 9.8;
+    private boolean indikateChangeScore = true;
+
+    private boolean finishGame = false;
 
     private WebSocketService webSocketService;
 
@@ -53,35 +52,88 @@ public class GameMechanics {
         GameSession myGameSession = nameToGame.get(userName);
 
         GameUser myUser = myGameSession.getSelf(userName);
-        myUser.getPlatform().setX(myUser.getPlatform().getX()+delta);
+        if (myUser.getPlatform().getX()+ (delta * 2) > 257 || myUser.getPlatform().getX()+ (delta * 2) < 20 ){
 
-        if (myUser.getBall().getX()==0) {
+        }else {
+            myUser.getPlatform().setX(myUser.getPlatform().getX() + (delta * 2));
+        }
+
+        /*if (myUser.getBall().getX()==0) {
             webSocketService.notifyGameOver(myGameSession.getFirst(), true);
             webSocketService.notifyGameOver(myGameSession.getSecond(), false);
         } else if(myUser.getEnemy().getBall().getX()==500) {
             webSocketService.notifyGameOver(myGameSession.getFirst(), false);
             webSocketService.notifyGameOver(myGameSession.getSecond(), true);
-        }
+        }*/
         webSocketService.notifyNewState(myUser,myUser.getEnemy());
 
     }
 
 
-    public void run() {
+    public void run() throws JSONException {
         while (true) {
             gmStep();
             TimeHelper.sleep(STEP_TIME);
         }
     }
 
-    private void gmStep() {
+    private void gmStep() throws JSONException {
         for (GameSession session : allSessions) {
             GameUser myUser = session.getFirst();
-            myUser.getBall().setX(session.getFirst().getBall().getX()+10);
+            if ( myUser.getBall().getX() > 25 ) {
+                if (myUser.getBall().getX() < 290 ) {
+                    myUser.getBall().setX(session.getFirst().getBall().getX()+session.getFirst().getBall().getVx());
+                } else {
+                    session.getFirst().getBall().setVx(session.getFirst().getBall().getVx()*(-1));
+                    myUser.getBall().setX(session.getFirst().getBall().getX()+session.getFirst().getBall().getVx());
+                }
+            } else {
+                session.getFirst().getBall().setVx(session.getFirst().getBall().getVx()*(-1));
+                myUser.getBall().setX(session.getFirst().getBall().getX()+session.getFirst().getBall().getVx());
+            }
+            if ( myUser.getBall().getY() > 10 ) {
+                if (myUser.getBall().getY() < 140 ) {
+
+                    if (Math.abs(myUser.getPlatform().getX()+25-myUser.getBall().getX()) < 25 &&
+                            Math.abs(myUser.getPlatform().getY()-myUser.getBall().getY()) < 5 ||
+                            Math.abs(myUser.getEnemy().getPlatform().getX()+25-myUser.getBall().getX()) < 25 &&
+                            Math.abs(myUser.getEnemy().getPlatform().getY()+5-myUser.getBall().getY()) < 5
+                            ) {
+                        session.getFirst().getBall().setVy(session.getFirst().getBall().getVy()*(-1));
+                        myUser.getBall().setY(session.getFirst().getBall().getY() + session.getFirst().getBall().getVy());
+                        indikateChangeScore = true;
+                    }else {
+                        myUser.getBall().setY(session.getFirst().getBall().getY() + session.getFirst().getBall().getVy());
+                    }
+
+                } else {
+                    if (indikateChangeScore && !finishGame) {
+                        myUser.increment();
+                        indikateChangeScore = false;
+                    }
+                    session.getFirst().getBall().setVy(session.getFirst().getBall().getVy()*(-1));
+                    myUser.getBall().setY(session.getFirst().getBall().getY() + session.getFirst().getBall().getVy());
+                }
+
+
+            } else {
+                if (indikateChangeScore && !finishGame) {
+                    myUser.getEnemy().increment();
+                    indikateChangeScore = false;
+                }
+                session.getFirst().getBall().setVy(session.getFirst().getBall().getVy()*(-1));
+                myUser.getBall().setY(session.getFirst().getBall().getY() + session.getFirst().getBall().getVy());
+            }
+
+            webSocketService.notifyNewState(myUser,myUser.getEnemy());
+
             if (session.getSessionTime() > gameTime) {
-                boolean firstWin = session.isFirstWin();
-                webSocketService.notifyGameOver(session.getFirst(), firstWin);
-                webSocketService.notifyGameOver(session.getSecond(), !firstWin);
+                if (!finishGame) {
+                    
+                }
+                finishGame = true;
+                webSocketService.notifyGameOver(session.getFirst());
+                webSocketService.notifyGameOver(session.getSecond());
 
             }
         }
