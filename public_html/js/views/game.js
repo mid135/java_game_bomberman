@@ -7,13 +7,25 @@ define([
     Backbone,
     tmpl,
     session,
-    game
+    gameModel
 ){
 
 var View = Backbone.View.extend({
         el: $('.game'),
         template: tmpl,
         user: session,
+        gm:gameModel,
+
+        initialize: function() {
+            //debugger;
+            this.listenTo(this.gm, 'model:change', this.draw);
+            this.listenTo(this.gm, 'model:close', this.show);
+            this.listenTo(this.gm, 'load:done', this.initGame);
+            this.render();
+            this.$el.hide();
+
+        },
+
         start_game:false,
         canvas:null,
         context:null,
@@ -28,13 +40,7 @@ var View = Backbone.View.extend({
         	height: '200px'
         },
 
-        initialize: function() {
-            this.render();
-            this.$el.hide();
-            //this.listenTo(game, 'model:change', this.draw);
-            //this.listenTo(game, 'model:close', this.show);
 
-        },
         render: function () {
             this.$el.html(this.template());
 
@@ -43,22 +49,27 @@ var View = Backbone.View.extend({
             this.$el.find('.gameplay').hide();
             this.$el.find('.over').hide();
             this.trigger('reshow', this);
+            this.initGame(document.getElementById('myCanvas'));
         },
         hide: function () {
            this.$el.hide();
         },
 
-        initGame: function() {
-            game_js.canvas = canvas;
-            game_js.context = canvas.getContext('2d');
-            var self = game_js;
+        gameplay: function() {
+            this.$el.find('.gameplay').show();
+        },
+
+        initGame: function(canvas) {
+            this.canvas = canvas;
+            this.context = canvas;
+            var self = this;
         	$(canvas)
         	.css({
-        	    width:game_js.canvas_params.width,
-        	    height:game_js.canvas_params.height
+        	    width:this.canvas_params.width,
+        	    height:this.canvas_params.height
         	});
-       		for(var i=0;i<game_js.count_players;i++){
-       			game_js.rect_params.push({
+       		for(var i=0;i<this.count_players;i++){
+       			self.rect_params.push({
        				name:i,
        				cur_x:null,
        				cur_y:null,
@@ -68,12 +79,12 @@ var View = Backbone.View.extend({
        		}
         },
         draw: function() {
-            if (!game_js.start_game){
+            if (!this.start_game){
                 console.log("игра не началась");
                 return;
             }
             var json = game;
-            game_js.clean_scene();
+            this.clean_scene();
             var myState = json.myState,
             enemyState = json.enemyState,
             ballState = json.ballState;
@@ -82,25 +93,25 @@ var View = Backbone.View.extend({
             enemyState.name = 'rect';
             ballState.name = 'ball';
 
-            game_js.draw_shape(myState,0);
-            game_js.draw_shape(enemyState,1);
-            game_js.draw_shape(ballState);
+            this.draw_shape(myState,0);
+            this.draw_shape(enemyState,1);
+            this.draw_shape(ballState);
 
                     //ïèøåì òåêóùóþ ïîçèöèþ
-            game_js.rect_params[0].cur_x = myState.x;
-            game_js.rect_params[0].cur_y = myState.y;
-            game_js.rect_params[1].cur_x = enemyState.x;
-            game_js.rect_params[1].cur_y = enemyState.y;
+            this.rect_params[0].cur_x = myState.x;
+            this.rect_params[0].cur_y = myState.y;
+            this.rect_params[1].cur_x = enemyState.x;
+            this.rect_params[1].cur_y = enemyState.y;
             return true;
         },
         draw_shape:function(shape,a){
-            context = game_js.context;
+            context = this.context;
             if (shape.x === null||shape.y === null||!shape.name){
                         console.log("no info!");
                         console.log(shape);
                         console.log("---");
                         return;            }
-            var self = game_js,
+            var self = this,
             draw = {
                 rect:function(){
                     var w = shape.width||self.rect_params[a].width,
@@ -109,7 +120,7 @@ var View = Backbone.View.extend({
                     return true;
                 },
                 ball:function(){
-                     var r = shape.radius||game_js.ball_params.radius;
+                     var r = shape.radius||self.ball_params.radius;
                      context.arc(shape.x, shape.y, r, 0, 2*Math.PI, false);
                      return true;
                 }
@@ -124,7 +135,7 @@ var View = Backbone.View.extend({
             context.strokeStyle = 'black';
             context.stroke();
 
-	},
+	    }
 
     });
 

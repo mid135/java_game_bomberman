@@ -75,7 +75,10 @@ public class GameMechanics {
     private void gmStep() {
         for (GameSession session : allSessions) {
             GameUser myUser = session.getFirst();
+
+
             myUser.getBall().setX(session.getFirst().getBall().getX()+10);
+
             if (session.getSessionTime() > gameTime) {
                 boolean firstWin = session.isFirstWin();
                 webSocketService.notifyGameOver(session.getFirst(), firstWin);

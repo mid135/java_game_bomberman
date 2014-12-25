@@ -2,14 +2,15 @@ define([
 'backbone'
 ], function (Backbone) {
     var GameModel = Backbone.Model.extend({
-        json: null,
+        connection:null,
    		initialize: function () {
-   		debugger;
+
    			this.connection = undefined;
    			this.json = undefined;
    			this.status = 0;
-               this.players = 2;
+            this.players = 2;
    			_.bindAll(this, 'onConnect', 'onMessage');
+   			this.connect();
    		},
    		connect: function () {
             this.trigger('load:start', 'Подключение...');
@@ -27,12 +28,12 @@ define([
    			}
    		},
    		onConnect: function () {
-   			this.connection.send(JSON.stringify(sendObj));
+   			//this.connection.send(JSON.stringify(sendObj));
             this.trigger('load:done');
             this.trigger('load:start', 'Ожидание игроков...');
    		},
    		onMessage: function (msg) {
-   			var message = JSON.parse(msg.data);
+   			var data = JSON.parse(msg.data);
    			if (data.status=="game") {
    			    this.json=message;
    			    this.trigger('model:change');
@@ -41,5 +42,5 @@ define([
 
     	});
 
-return GameModel;
+return new GameModel();
 });
