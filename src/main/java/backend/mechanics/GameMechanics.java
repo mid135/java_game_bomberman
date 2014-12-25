@@ -151,7 +151,7 @@ public class GameMechanics {
         webSocketService.notifyStartGame(gameSession.getSelf(second));
 
         webSocketService.notifyNewState(gameSession.getSelf(first),gameSession.getSelf(second));
-       // webSocketService.notifyNewState(gameSession.getSelf(second),gameSession.getSelf(first));
+        // webSocketService.notifyNewState(gameSession.getSelf(second),gameSession.getSelf(first));
     }
 }
 

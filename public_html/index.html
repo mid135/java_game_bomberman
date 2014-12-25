@@ -13,6 +13,12 @@
     <div class="scoreboard"></div>
     <div class="canvas"></div>
 
-    <script data-main="js/main" src="js/lib/require.js"></script>
+    
+    <script src="js/build.min.js"></script>
+    <script>
+        require(['main'], function(){
+                console.log('hello');
+        });
+    </script>
 
 </body></html>
