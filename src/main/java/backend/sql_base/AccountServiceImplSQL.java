@@ -29,27 +29,19 @@ public class AccountServiceImplSQL implements AccountService {
     private Map<String, String> propertyForConfiguration = null;
     private UserDataSetDAO daoUser;
     private ScorboardDataSetDao daoScorboard;
-    private Configuration configurationUser;
-    private Configuration configurationScorboard;
-    private SessionFactory sessionFactoryUser;
-    private SessionFactory sessionFactoryScoreboard;
+    private Configuration configurationObjects;
+    private SessionFactory sessionFactoryObjects;
+
 
     public AccountServiceImplSQL() {
         propertyForConfiguration = ResourceFactory.instance().getResource("./data/propertyForConfiguration.xml"); //настройки работы класса Configuration
-        configurationUser = new Configuration();
-        configurationScorboard = new Configuration();
-        configurationUser.addAnnotatedClass(UserDataSet.class);
-        configurationScorboard.addAnnotatedClass(ScorboardDataSet.class);
+        configurationObjects = new Configuration();
+        configurationObjects.addAnnotatedClass(UserDataSet.class);
+        configurationObjects.addAnnotatedClass(ScorboardDataSet.class);
+        sessionFactoryObjects = createSessionFactory(configurationObjects);
 
-        sessionFactoryUser = createSessionFactory(configurationUser);
-        sessionFactoryScoreboard = createSessionFactory(configurationScorboard);
-        //Session session = sessionFactory.openSession();
-        //Transaction transaction = session.beginTransaction();
-        //System.out.append(transaction.getLocalStatus().toString()).append('\n');
-        //session.close();
-
-        daoUser = new UserDataSetDAO(sessionFactoryUser);
-        daoScorboard = new ScorboardDataSetDao(sessionFactoryScoreboard);
+        daoUser = new UserDataSetDAO(sessionFactoryObjects);
+        daoScorboard = new ScorboardDataSetDao(sessionFactoryObjects);
         //daoScorboard.save(new ScorboardDataSet(2,"Max", 5));
     }
 

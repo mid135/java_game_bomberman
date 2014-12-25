@@ -19,7 +19,7 @@ public class UserDataSetDAO implements Map{
         this.sessionFactory = sessionFactory;
     }
 
-    synchronized public void save(UserDataSet dataSet) {
+    public void save(UserDataSet dataSet) {
         Session session = sessionFactory.openSession();
         Transaction trx = session.beginTransaction();
         session.save(dataSet);
@@ -27,25 +27,25 @@ public class UserDataSetDAO implements Map{
         session.close();
     }
 
-    synchronized public UserDataSet read(long id) {
+    public UserDataSet read(long id) {
         Session session = sessionFactory.openSession();
         return (UserDataSet) session.load(UserDataSet.class, id);
     }
 
-    synchronized public UserDataSet readByName(String login) {
+    public UserDataSet readByName(String login) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(UserDataSet.class);
         return (UserDataSet) criteria.add(Restrictions.eq("login", login)).uniqueResult();
     }
     @Override
-    synchronized public Object get(Object login) {
+    public Object get(Object login) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(UserDataSet.class);
         return criteria.add(Restrictions.eq("login", login)).uniqueResult();
     }
 
     @SuppressWarnings("unchecked")
-    synchronized public List<UserDataSet> readAll() {
+    public List<UserDataSet> readAll() {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(UserDataSet.class);
         return (List<UserDataSet>) criteria.list();
