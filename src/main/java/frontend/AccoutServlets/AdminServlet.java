@@ -41,7 +41,7 @@ public class AdminServlet extends HttpServlet {
             System.exit(0);
         }
         pageVariables.put("serverStatus", "run");
-        pageVariables.put("userTotalCount", pool.getUsers().size());
+        pageVariables.put("userTotalCount", pool.getArraySessionId().size());
         pageVariables.put("sessionCount", pool.getArraySessionId().size());
         response.getWriter().println(PageGenerator.getPage("admin.html", pageVariables));
     }

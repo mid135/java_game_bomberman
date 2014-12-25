@@ -2,6 +2,7 @@ package backend.mechanics;
 
 
 import backend.AccountService;
+import backend.User;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -20,13 +21,16 @@ public class GameSession {
 
     public GameSession(AccountService pool,String user1Name, String user2Name) {
         startTime = new Date().getTime();
+        Map<String, User> usersOnline = new HashMap<String , User>();
         Shape ball = new Shape(250,50,2,2);
-
+        for (Map.Entry<String, User> entry : pool.getArraySessionId().entrySet()) {
+            usersOnline.put(entry.getValue().getLogin(), entry.getValue());
+        }
         GameUser user1 = new GameUser(50,130,ball);
-        user1.setUser(pool.getUsers().get(user1Name));
+        user1.setUser(usersOnline.get(user1Name));
 
         GameUser user2 = new GameUser(200,20,ball);
-        user2.setUser(pool.getUsers().get(user2Name));
+        user2.setUser(usersOnline.get(user2Name));
 
         user2.setEnemyName(user1);
         user1.setEnemyName(user2);

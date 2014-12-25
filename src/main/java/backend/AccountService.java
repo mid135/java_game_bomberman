@@ -20,14 +20,14 @@ import java.util.Map;
 public interface AccountService {
 
     public Map<String, User> getArraySessionId();
-    public Map<String, User> getUsers();
+    //public Map<String, User> getUsers();
 
     public AccountEnum checkRegistration(String userName) ;//проверка регистрации пользователя
     public AccountEnum checkLogIn (HttpServletRequest request) ;//проверка залогинен ли пользватель
     public AccountEnum logIn(String login, String password,HttpServletRequest request);//залогинивагние пользователя
     public AccountEnum logOff (HttpServletRequest request) ;//разлогинивание пользователя
-    public AccountEnum register(User userImplMemory);//регистрация пользователя
-    public AccountEnum editProfile(User userImplMemory);//изменение профиля
+    public AccountEnum register(User user);//регистрация пользователя
+    public AccountEnum editProfile(User user);//изменение профиля
     public JSONObject getScoreboard();//получение очков
     public void saveScore(long userId, String userName, int score);
 }

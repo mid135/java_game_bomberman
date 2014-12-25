@@ -29,10 +29,10 @@ public class AccoutServiceImplMemory implements AccountService {
 
 
     @Override
-    public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
+    public Map<String, User> getArraySessionId() {return  this.arraySessionId;}
 
-    @Override
-    public Map<String, User> getUsers() {return this.users;};
+    //@Override
+    //public Map<String, User> getUsers() {return this.users;}
 
     @Override
     public AccountEnum checkRegistration(String userName) {//проверка регистрации пользователя

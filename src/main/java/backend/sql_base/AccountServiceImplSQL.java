@@ -64,8 +64,8 @@ public class AccountServiceImplSQL implements AccountService {
     @Override
     public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
 
-    @Override
-    public Map getUsers() {return daoUser;}
+    //@Override
+    //public Map getUsers() {return daoUser;}
 
     @Override
     public synchronized AccountEnum checkRegistration(String userName) {//проверка регистрации пользователя
