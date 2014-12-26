@@ -22,6 +22,7 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
     private String email;
 
 
+
     //Important to Hibernate!
     public UserDataSet(){
     }
@@ -40,6 +41,7 @@ public class UserDataSet implements Serializable, User { // Serializable Importa
         this.email = email;
     }
 
+    @Override
     public long getId() {
         return id;
     }

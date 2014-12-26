@@ -7,11 +7,12 @@ import org.json.JSONObject;
  * Created by mid on 16.12.14.
  */
 public class Shape {
-    public Shape(int x, int y, int sp){this.x= x;this.y=y;this.speed=sp;}
+    public Shape(double x, double y, double Vx, double Vy){this.x= x;this.y=y;this.Vx = Vx; this.Vy = Vy;}
 
-    private int x;
-    private int y;
-    private int speed;//can be unused
+    private double x;
+    private double y;
+    private double Vx;
+    private double Vy;
 
     public JSONObject getState() {
         JSONObject out = new JSONObject();
@@ -23,16 +24,27 @@ public class Shape {
         return out;
     }
 
-    public int getX() {       return x;    }
+    public double getX() {       return x;    }
 
-    public int getY() {       return y;    }
+    public double getY() {       return y;    }
 
-    public int getSpeed() {        return speed;    }
+    public double getVx() {
+        return Vx;
+    }
 
-    public void setX(int x) {        this.x = x;    }
+    public double getVy() {
+        return Vy;
+    }
 
-    public void setY(int y) {        this.y = y;    }
+    public void setX(double x) {        this.x = x;    }
 
-    public void setSpeed(int speed) {        this.speed = speed;    }
+    public void setY(double y) {        this.y = y;    }
 
+    public void setVx(double vx) {
+        Vx = vx;
+    }
+
+    public void setVy(double vy) {
+        Vy = vy;
+    }
 }

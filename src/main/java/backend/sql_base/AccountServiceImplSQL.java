@@ -7,9 +7,7 @@ import backend.sql_base.dao.UserDataSetDAO;
 import backend.sql_base.dataSets.ScorboardDataSet;
 import backend.sql_base.dataSets.UserDataSet;
 import backend.User;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -31,27 +29,19 @@ public class AccountServiceImplSQL implements AccountService {
     private Map<String, String> propertyForConfiguration = null;
     private UserDataSetDAO daoUser;
     private ScorboardDataSetDao daoScorboard;
-    private Configuration configurationUser;
-    private Configuration configurationScorboard;
-    private SessionFactory sessionFactoryUser;
-    private SessionFactory sessionFactoryScoreboard;
+    private Configuration configurationObjects;
+    private SessionFactory sessionFactoryObjects;
+
 
     public AccountServiceImplSQL() {
         propertyForConfiguration = ResourceFactory.instance().getResource("./data/propertyForConfiguration.xml"); //настройки работы класса Configuration
-        configurationUser = new Configuration();
-        configurationScorboard = new Configuration();
-        configurationUser.addAnnotatedClass(UserDataSet.class);
-        configurationScorboard.addAnnotatedClass(ScorboardDataSet.class);
+        configurationObjects = new Configuration();
+        configurationObjects.addAnnotatedClass(UserDataSet.class);
+        configurationObjects.addAnnotatedClass(ScorboardDataSet.class);
+        sessionFactoryObjects = createSessionFactory(configurationObjects);
 
-        sessionFactoryUser = createSessionFactory(configurationUser);
-        sessionFactoryScoreboard = createSessionFactory(configurationScorboard);
-        //Session session = sessionFactory.openSession();
-        //Transaction transaction = session.beginTransaction();
-        //System.out.append(transaction.getLocalStatus().toString()).append('\n');
-        //session.close();
-
-        daoUser = new UserDataSetDAO(sessionFactoryUser);
-        daoScorboard = new ScorboardDataSetDao(sessionFactoryScoreboard);
+        daoUser = new UserDataSetDAO(sessionFactoryObjects);
+        daoScorboard = new ScorboardDataSetDao(sessionFactoryObjects);
         //daoScorboard.save(new ScorboardDataSet(2,"Max", 5));
     }
 
@@ -67,10 +57,15 @@ public class AccountServiceImplSQL implements AccountService {
     }
 
     @Override
-    public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
+    public void saveScore (long userId, String userName, int score) {
+        daoScorboard.save(new ScorboardDataSet(userId,userName, score));
+    }
 
     @Override
-    public Map getUsers() {return daoUser;}
+    public Map<String, User> getArraySessionId() {return  this.arraySessionId;};
+
+    //@Override
+    //public Map getUsers() {return daoUser;}
 
     @Override
     public synchronized AccountEnum checkRegistration(String userName) {//проверка регистрации пользователя

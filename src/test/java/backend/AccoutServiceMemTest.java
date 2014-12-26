@@ -25,7 +25,7 @@ public class AccoutServiceMemTest {
     }
     @Test
     public void testRegister() throws Exception {
-        assertEquals(1,pool.getUsers().size());
+        assertEquals(1,pool.getArraySessionId().size());
     }
     @Test
     public void testLogIn() throws Exception {
