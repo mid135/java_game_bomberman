@@ -47,9 +47,6 @@ public class GameMechanics {
             waiter = user;
         }
     }
-    public void addMobile(String user) throws JSONException {
-        startMobile(user);
-    }
 
     public void changePosition(String userName,Integer delta) throws JSONException{
         GameSession myGameSession = nameToGame.get(userName);
@@ -157,9 +154,5 @@ public class GameMechanics {
         // webSocketService.notifyNewState(gameSession.getSelf(second),gameSession.getSelf(first));
     }
 
-    public void startMobile(String user) throws JSONException {
-        webSocketService.notyfyStartGameMobile(user);
-        webSocketService.notifyNewStateMobile(user);
-    }
 }
 
