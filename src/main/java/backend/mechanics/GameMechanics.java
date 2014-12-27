@@ -18,7 +18,7 @@ import java.util.*;
 public class GameMechanics {
     private static final int STEP_TIME = 50;
 
-    private static final int gameTime = 50 * 1000;
+    private static final int gameTime = 40 * 1000;
 
     private static final int speed_inc = 1;//TODO cкорость постепенно увеличивается
 
