@@ -33,9 +33,14 @@ define([
         },
 
         show: function () {
+
             this.trigger('reshow', this);
+
         },
 
+        hide: function() {
+            this.$el.hide();
+        },
 
         authClick: function(event) {
             event.preventDefault();

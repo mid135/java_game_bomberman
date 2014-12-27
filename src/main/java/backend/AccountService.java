@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+import org.eclipse.jetty.websocket.api.Session;
 
 /**
  * Created by mid on 23.10.14.
@@ -20,7 +20,7 @@ import java.util.Map;
 public interface AccountService {
 
     public Map<String, User> getArraySessionId();
-    //public Map<String, User> getUsers();
+
 
     public AccountEnum checkRegistration(String userName) ;//проверка регистрации пользователя
     public AccountEnum checkLogIn (HttpServletRequest request) ;//проверка залогинен ли пользватель
@@ -30,4 +30,6 @@ public interface AccountService {
     public AccountEnum editProfile(User user);//изменение профиля
     public JSONObject getScoreboard();//получение очков
     public void saveScore(long userId, String userName, int score);
+
+    public void addJoystick(String user,String sid);
 }

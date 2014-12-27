@@ -36,8 +36,11 @@ define([
 
         show: function () {
             this.trigger('reshow', this);
+            this.$el.show();
         },
-
+        hide: function() {
+            this.$el.hide();
+        },
         registerClick: function(event) {
             event.preventDefault();
             var username = this.$("input[name=login]").val(),

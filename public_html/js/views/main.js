@@ -37,8 +37,12 @@ define([
             this.session.fetch();
             //this.session.postLogin('main');
             this.trigger("reshow",this);
+           // this.$el.show();
         },
 
+        hide: function() {
+            this.$el.hide();
+        },
         logoff: function (event) {
 
             event.preventDefault();

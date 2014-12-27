@@ -3,6 +3,7 @@ package servlets;
 import backend.mechanics.GameMechanics;
 
 import frontend.AccoutServlets.*;
+import frontend.StickOfJoy.WebSocketMobileServlet;
 import frontend.WebSocketGameServlet;
 import frontend.WebSocketService;
 import org.eclipse.jetty.server.Handler;
@@ -29,6 +30,7 @@ public class Main {
         Register register=new Register(pool);
         Profile profile = new Profile(pool);
         Scoreboard scoreboard = new Scoreboard(pool);
+        Joystick joystick = new Joystick(pool);
 
 
         /*if (args.length != 1) {
@@ -49,12 +51,14 @@ public class Main {
         context.addServlet(new ServletHolder(register),"/register");
         context.addServlet(new ServletHolder(profile),"/profile");
         context.addServlet(new ServletHolder(scoreboard),"/scoreboard");
+        context.addServlet(new ServletHolder(joystick),"/joystick");
         context.addServlet(new ServletHolder(new AdminServlet(pool)), AdminServlet.adminPageURL);
 
         WebSocketService webSocketService = new WebSocketService();
         GameMechanics gameMechanics = new GameMechanics(webSocketService,pool);
-
         context.addServlet(new ServletHolder(new WebSocketGameServlet(pool, gameMechanics, webSocketService)), "/gameplay");
+        context.addServlet(new ServletHolder(new WebSocketMobileServlet(pool,gameMechanics)),"/mobile");
+
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

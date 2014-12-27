@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.eclipse.jetty.websocket.api.Session;
 
 
 /**
@@ -106,4 +107,6 @@ public class AccoutServiceImplMemory implements AccountService {
     public void saveScore(long userId, String userName, int score) {
 
     }
+    @Override
+    public void addJoystick(String i,String h) {};
 }

@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import resources.ResourceFactory;
+import org.eclipse.jetty.websocket.api.Session;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -32,6 +33,7 @@ public class AccountServiceImplSQL implements AccountService {
     private Configuration configurationObjects;
     private SessionFactory sessionFactoryObjects;
 
+    private HashMap<String,String> userJoystick = new HashMap<>();//все джойстики по sessionId джойстика
 
     public AccountServiceImplSQL() {
         propertyForConfiguration = ResourceFactory.instance().getResource("./data/propertyForConfiguration.xml"); //настройки работы класса Configuration
@@ -152,7 +154,6 @@ public class AccountServiceImplSQL implements AccountService {
                 }
             }
         }catch (Exception e){
-
         }
 
         JSONObject fin = new JSONObject();
@@ -163,4 +164,8 @@ public class AccountServiceImplSQL implements AccountService {
         }
         return fin;
     }
+    @Override
+    public void addJoystick(String user,String sid) {
+       this.userJoystick.put(user,sid);
+   }
 }

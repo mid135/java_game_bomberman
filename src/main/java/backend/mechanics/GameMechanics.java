@@ -11,19 +11,24 @@ import frontend.WebSocketService;
 import org.json.JSONException;
 import utils.TimeHelper;
 
+import java.sql.SQLException;
 import java.util.*;
 
 
 public class GameMechanics {
     private static final int STEP_TIME = 50;
 
-    private static final int gameTime = 30 * 1000;
+    private static final int gameTime = 50 * 1000;
 
     private static final int speed_inc = 1;//TODO cкорость постепенно увеличивается
 
     private boolean indikateChangeScore = true;
 
     private boolean finishGame = false;
+
+    public WebSocketService getWebSocketService() {
+        return webSocketService;
+    }
 
     private WebSocketService webSocketService;
 
@@ -152,6 +157,27 @@ public class GameMechanics {
 
         webSocketService.notifyNewState(gameSession.getSelf(first),gameSession.getSelf(second));
        // webSocketService.notifyNewState(gameSession.getSelf(second),gameSession.getSelf(first));
+    }
+    public void gameOver(String name) {
+        //TODO запись очков в БД
+        GameSession ses = nameToGame.get(name);
+        allSessions.remove(ses);
+        try {
+        String first = ses.getFirst().getMyName();
+        webSocketService.notifyGameOver(ses.getFirst());
+        nameToGame.remove(first);
+
+            String second = ses.getSecond().getMyName();
+            webSocketService.notifyGameOver(ses.getSecond());
+            nameToGame.remove(second);
+        } catch (NullPointerException e) {
+            System.console().writer().print("nullpointer");
+        }
+
+
+
+
+
     }
 }
 

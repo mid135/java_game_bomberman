@@ -49,11 +49,12 @@ define([
         },
 
         userAuthorised: function() {
-        debugger;
             this.trigger('successAuth');
         },
         postAuth: function(url, data) {
-            this.sendPost(url, data, 'successAuth', 'errorAuth');
+            //this.sendPost(url, data, 'successAuth', 'errorAuth');
+            this.set(data);
+            this.save();
         },
 
         postReg: function(url, data) {

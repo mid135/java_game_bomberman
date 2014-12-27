@@ -13,7 +13,7 @@ var game_js = {
     canvas:null,
     context:null,
 	count_players:2,
-	url:'ws://localhost:8080/gameplay',
+	url:'ws://'+location.host+'/gameplay',
 	connection:null,
 	canvas_params:{
 		scene_color:"white",

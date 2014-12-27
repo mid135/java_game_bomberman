@@ -19,7 +19,7 @@
         <div class="gamepage__body__battlefield">
             <div class="gamepage__body__battlefield wait" id="wait">Ожидайте игрока</div>
             <div class="gamepage__body__battlefield gameplay" id="gameplay">Игра
-
+                <canvas id="myCanvas"></canvas>
 
             </div>
             <div class="gamepage__body__battlefield over" id="gameOver">Игра окончена

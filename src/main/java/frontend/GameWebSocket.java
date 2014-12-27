@@ -103,5 +103,6 @@ public class GameWebSocket {
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         //TODO а тут что делать? - перейти на нужную вьюху!!!
+      //  this.gameMechanics.gameOver(this.myName);
     }
 }

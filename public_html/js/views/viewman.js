@@ -26,7 +26,7 @@ define([
 
         reshow: function (view) {
             if (this.currentView) {
-                this.currentView.$el.hide();
+                this.currentView.hide();
             }
             this.currentView = view;
             view.$el.show();

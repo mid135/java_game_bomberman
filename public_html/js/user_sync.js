@@ -7,15 +7,16 @@ define([
                 method: 'POST',
                 url: "/auth",
                 success: function (resp) {
-                    if (resp.status == 200) {
+                    if (resp.status == 1) {
                         model.clear();
-                        model.trigger('signup:ok');
+                        model.trigger('successAuth');
                     }
-                    else if (resp.status == 500) {
-                        model.trigger('signup:bad', resp.message);
+                    else if (resp.status == 2) {
+                        model.trigger('failAuth', resp.message);
                     }
                 },
                 error: function () {
+                    console.log('rett');
                     model.trigger('signup:error');
                 }
             },

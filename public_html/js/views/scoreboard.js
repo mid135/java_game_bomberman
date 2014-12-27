@@ -24,8 +24,12 @@ var View = Backbone.View.extend({
             this.$el.html(this.template(scores));
         },
         show: function () {
+            this.$el.show();
             this.collection.fetch();
-            this.trigger('rerender', this);
+            this.trigger('reshow', this);
+        },
+        hide: function() {
+            this.$el.hide();
         }
     });
 
