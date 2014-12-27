@@ -347,3 +347,16 @@ ERROR INFO
   width: 1000;
   height:500;
 }
+
+.preloader {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #3498db;
+  border-radius: 50px;
+  animation: preloader 1.5s infinite linear;
+  -webkit-animation: preloader 1.5s infinite linear;
+  top: 40%;
+  left: 50%;
+  margin-left: -15px;
+  z-index: 999; }

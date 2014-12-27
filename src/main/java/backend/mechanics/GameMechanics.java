@@ -17,7 +17,7 @@ import java.util.*;
 public class GameMechanics {
     private static final int STEP_TIME = 50;
 
-    private static final int gameTime = 30 * 1000;
+    private static final int gameTime = 150 * 1000;
 
     private static final int speed_inc = 1;//TODO cкорость постепенно увеличивается
 
@@ -47,6 +47,9 @@ public class GameMechanics {
             waiter = user;
         }
     }
+    public void addMobile(String user) throws JSONException {
+        startMobile(user);
+    }
 
     public void changePosition(String userName,Integer delta) throws JSONException{
         GameSession myGameSession = nameToGame.get(userName);
@@ -65,7 +68,7 @@ public class GameMechanics {
             webSocketService.notifyGameOver(myGameSession.getFirst(), false);
             webSocketService.notifyGameOver(myGameSession.getSecond(), true);
         }*/
-        webSocketService.notifyNewState(myUser,myUser.getEnemy());
+        webSocketService.notifyNewState( myUser, myUser.getEnemy() );
 
     }
 
@@ -152,6 +155,11 @@ public class GameMechanics {
 
         webSocketService.notifyNewState(gameSession.getSelf(first),gameSession.getSelf(second));
         // webSocketService.notifyNewState(gameSession.getSelf(second),gameSession.getSelf(first));
+    }
+
+    public void startMobile(String user) throws JSONException {
+        webSocketService.notyfyStartGameMobile(user);
+        webSocketService.notifyNewStateMobile(user);
     }
 }
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1,width=device-width">
+    <script>
+        new Image().src = 'http://'+location.host+'/images/bg.jpg';
+    </script>
+    <link rel="stylesheet" href="joystick/css/main.css" />
+    <title></title>
+</head>
+<body>
+<div class="page">
+    <div class="preloader"></div>
+</div>
+<h1>Mobile</h1>
+<div>
+    <b>Data from browser</b>
+    <div>
+        <span id="alpha"></span>
+    </div>
+
+    <div>
+        <span id="beta"></span>
+    </div>
+
+    <div>
+        <span id="gamma"></span>
+    </div>
+</div>
+
+<div>
+    <b>Data from server</b>
+    <div>
+        <span id="alpha_serv"></span>
+    </div>
+
+    <div>
+        <span id="beta_serv"></span>
+    </div>
+
+    <div>
+        <span id="gamma_serv"></span>
+    </div>
+</div>
+
+<script data-main="js/main" src="js/lib/jquery.js"></script>
+<script type="text/javascript">
+	    $("body").css("overflow", "hidden");
+	</script>
+
+<script type="text/javascript">
+	    var alpha;
+	    var beta;
+	    var gamma;
+
+	    var ws = new WebSocket("ws://localhost:8080/mobile");
+
+	    ws.onopen = function (event) {
+	    }
+	    ws.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+
+            $("#alpha_serv").html(data.a);
+            $("#beta_serv").html(data.b);
+            $("#gamma_serv").html(data.g);
+	    }
+
+	    ws.onclose = function (event) {
+
+	    }
+
+            function handleOrientation(event) {
+                alpha = event.alpha;
+                beta  = event.beta;
+                gamma = event.gamma;
+
+                $("#alpha").html(alpha);
+                $("#beta").html(beta);
+                $("#gamma").html(gamma);
+                if (beta > 15) {
+                    beta = 5;
+                }else if (beta <15){
+                    beta = - 5;
+                } else beta = 0;
+
+                message = {
+                    delta: beta,
+                }
+                if (event.beta) {
+                    ws.send(JSON.stringify(message));
+                }
+            };
+            window.addEventListener('deviceorientation', handleOrientation);
+
+        </script>
+
+<script type="text/javascript" src="js/require.js" data-main="joystick/js/config"></script>
+</body>
+</html>

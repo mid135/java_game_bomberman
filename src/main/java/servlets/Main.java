@@ -44,6 +44,7 @@ public class Main {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         server.setHandler(context);
 
+
         context.addServlet(new ServletHolder(auth), "/auth");
         context.addServlet(new ServletHolder(logoff), "/logoff");
         context.addServlet(new ServletHolder(register),"/register");
