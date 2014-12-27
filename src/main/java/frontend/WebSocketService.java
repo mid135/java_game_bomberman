@@ -16,6 +16,7 @@ public class WebSocketService {
         userSockets.put(user.getMyName(), user);
     }
 
+
     public void notifyNewState(GameUser user1,GameUser user2) throws JSONException{
         userSockets.get(user1.getMyName()).setState(user1);
         userSockets.get(user2.getMyName()).setState(user2);
@@ -25,6 +26,7 @@ public class WebSocketService {
         GameWebSocket gameWebSocket = userSockets.get(user.getMyName());
         gameWebSocket.startGame(user);
     }
+
 
     public void notifyGameOver(GameUser user) {
         userSockets.get(user.getMyName()).gameOver( user.getMyName(), user.getScore(), user.getEnemy().getMyName(), user.getEnemy().getScore());

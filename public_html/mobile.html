@@ -3,8 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1,width=device-width">
-
-
+    <script>
+        new Image().src = 'http://'+location.host+'/images/bg.jpg';
+    </script>
+    <link rel="stylesheet" href="joystick/css/main.css" />
     <title></title>
 </head>
 <body>
@@ -13,7 +15,7 @@
 </div>
 <h1>Mobile</h1>
 <div>
-    <b>Информация с датчиков</b>
+    <b>Data from browser</b>
     <div>
         <span id="alpha"></span>
     </div>
@@ -28,7 +30,7 @@
 </div>
 
 <div>
-    <b></b>
+    <b>Data from server</b>
     <div>
         <span id="alpha_serv"></span>
     </div>
@@ -52,7 +54,7 @@
 	    var beta;
 	    var gamma;
 
-	    var ws = new WebSocket("ws://"+location.host+"/mobile");
+	    var ws = new WebSocket("ws://localhost:8080/mobile");
 
 	    ws.onopen = function (event) {
 	    }
@@ -78,10 +80,10 @@
                 $("#gamma").html(gamma);
                 if (beta > 15) {
                     beta = 5;
-
-                }else if (beta <-15){
+                }else if (beta <15){
                     beta = - 5;
                 } else beta = 0;
+
                 message = {
                     delta: beta,
                 }
