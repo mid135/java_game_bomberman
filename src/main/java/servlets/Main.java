@@ -37,8 +37,9 @@ public class Main {
         if (args.length != 1) {
 
             System.out.append("Use port as the first argument");
-            System.exit(1);
             
+            System.exit(1);
+
         }
 
         String portString = args[0];
